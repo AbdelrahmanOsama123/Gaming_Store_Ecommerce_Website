@@ -1,5 +1,5 @@
 import express,{Request,Response} from 'express';
-import {create,getCartItems,deleteCartItems} from '../conroller/cartItems';
+import {create,getCartItems,deleteCartItems,deleteCartItem,updateCartItem} from '../conroller/cartItems';
 // import tokenValidate from '../Middleware/tokenValidate';
 // import isAdmin from '../Middleware/isAdmin';
 
@@ -35,8 +35,34 @@ const cartItems_route = (app:express.Application)=>{
         try{
             const cart_id = req.body.cart_id;
             const cartItems = await deleteCartItems(cart_id);
-            console.log(cartItems);
             res.json(cartItems);
+        }
+        catch(error){
+            res.status(400);
+            res.json("Invalid insert data to cart_item "+error);
+        }
+    });
+
+    app.post('/deleteCartItem',async (req:Request,res:Response)=>{
+        try{
+            const cart_id = req.body.cart_id;
+            const product_id = req.body.product_id;
+            const cartItems = await deleteCartItem(cart_id,product_id);
+            res.json(cartItems);
+        }
+        catch(error){
+            res.status(400);
+            res.json("Invalid insert data to cart_item "+error);
+        }
+    });
+
+    app.post('/updateCartItem',async (req:Request,res:Response)=>{
+        try{
+            const quantity = req.body.quantity;
+            const cart_id = req.body.cart_id;
+
+            const updatedCartItem = await updateCartItem(quantity,cart_id);
+            res.json(updatedCartItem);
         }
         catch(error){
             res.status(400);

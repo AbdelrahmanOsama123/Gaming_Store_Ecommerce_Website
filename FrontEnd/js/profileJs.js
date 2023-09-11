@@ -43,7 +43,6 @@ const loadOrderItems = async(status)=>{
     const fragment = document.createDocumentFragment();
     for(const orderItem of orderItems){
         for(const order of orderItem){
-            console.log(order);
             const container = document.createElement('div');
             container.className = 'col-lg-3 col-md-6 col-sm-6 align-self-center mb-30 trending-items col-md-6';
 
@@ -107,10 +106,10 @@ const loadOrderItems = async(status)=>{
 
             const starsList = document.createElement("ul");
             starsList.classList.add("stars");
-            for (let i = 0; i < 6; i++) {
+            for (let i = 0; i < 5; i++) {
                 const starItem = document.createElement("li");
                 starItem.style.float='left';
-                starItem.style.color = '#ee626b';
+                starItem.style.color = '#ffcc00';
                 const starIcon = document.createElement("i");
                 starIcon.classList.add("fa", "fa-star");
                 starItem.appendChild(starIcon);
@@ -121,9 +120,8 @@ const loadOrderItems = async(status)=>{
         }
         
     }
-        
-        parentElement.innerHTML = '';
-         parentElement.appendChild(fragment);
+    parentElement.innerHTML = '';
+    parentElement.appendChild(fragment);
     
 }
 

@@ -28,8 +28,7 @@ addProductButton.addEventListener('click',async(event)=>{
         return ;
     }
     else{
-        msgRegisterSpan.textContent = 'You have add product data successfully ';
-        msgRegisterSpan.style.cssText = 'color:rgb(0,255,0);font-size: 16px; font-weight: bold;';
+        
         const product = await sendProductData('/products',{
           name :productName,
           price :productPrice,
@@ -38,9 +37,23 @@ addProductButton.addEventListener('click',async(event)=>{
           description,
           quantity
       });
-      console.log(product);
+      if(product.price <=0 || product.quantity<=0 || product.afterOffer<=0){
+        msgRegisterSpan.textContent = 'please, enter positive numbers';
+        msgRegisterSpan.style.cssText = 'color:rgb(255,0,0);font-size: 16px; font-weight: bold;';
+        return ;
+      }
+      else if(product.status =='failed'){
+        msgRegisterSpan.textContent = 'invalid enter text to numbers (quantity,price,afterprice) ';
+        msgRegisterSpan.style.cssText = 'color:rgb(255,0,0);font-size: 16px; font-weight: bold;';
+        return ;
+      }
+      else{
+        msgRegisterSpan.textContent = 'You have add product data successfully ';
+      msgRegisterSpan.style.cssText = 'color:rgb(255,0,0);font-size: 16px; font-weight: bold;';
+        setTimeout(enteringHome,3000);
+      }
+      
     }
-    setTimeout(enteringHome,3000);
   });
 
 const sendProductData = async (url = '', data = {}) => {

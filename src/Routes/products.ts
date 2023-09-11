@@ -1,5 +1,5 @@
 import express,{Request,Response} from 'express';
-import {index,show,create,update,Delete,getProductsByCatagory,getTrendingProducts,getProductId} from '../conroller/products';
+import {index,show,create,update,Delete,getProductsByCatagory,getTrendingProducts,getProductId,getPageProducts} from '../conroller/products';
 import tokenValidate from '../Middleware/tokenValidate';
 import isAdmin from '../Middleware/isAdmin';
 
@@ -11,7 +11,7 @@ const products_routes = (app:express.Application) =>{
         }
         catch(error){
             res.status(400);
-            res.json("Invalid get data from db "+error);
+            res.json("Invalid get all data from database "+error);
         }
     });
     app.get('/products/:id',tokenValidate,async(req:Request,res:Response)=>{
@@ -22,7 +22,7 @@ const products_routes = (app:express.Application) =>{
         }
         catch(error){
             res.status(400);
-            res.json("Invalid show data from db "+error);
+            res.json("Invalid show data from database "+error);
         }
         
     });
@@ -43,11 +43,11 @@ const products_routes = (app:express.Application) =>{
         
         catch(error){
             res.status(400);
-            res.json("Invalid insert data to db "+error);
+            res.json({status:'failed'});
         }
     });
                             ///tokenValidate
-    app.put('/products/:id',tokenValidate,isAdmin,async(req:Request,res:Response)=>{
+    app.put('/products/:id',tokenValidate,async(req:Request,res:Response)=>{
         try{
             const product = {
                 name : req.body.name,
@@ -63,11 +63,11 @@ const products_routes = (app:express.Application) =>{
         }
         catch(error){
             res.status(400);
-            res.json("Invalid update data from db "+error);
+            res.json("Invalid update data from database "+error);
         }
     });
                             ///tokenValidate
-    app.delete('/products/:id',tokenValidate,isAdmin,async(req:Request,res:Response)=>{
+    app.delete('/products/:id',tokenValidate,async(req:Request,res:Response)=>{
         try{
             const id :number = parseInt(req.params.id);
             const result = await Delete(id);
@@ -75,7 +75,7 @@ const products_routes = (app:express.Application) =>{
         }
         catch(error){
             res.status(400);
-            res.json("Invalid delete data from db "+error);
+            res.json("Invalid delete data from database "+error);
         }
     });
     app.get('/products/catagory/:category',tokenValidate,async(req:Request,res:Response)=>{
@@ -86,7 +86,7 @@ const products_routes = (app:express.Application) =>{
         }
         catch(error){
             res.status(400);
-            res.json("Invalid delete data from db "+error);
+            res.json("Invalid get products by required catagory from database "+error);
         }
     })
     app.get('/trending',tokenValidate,async (req,res)=>{
@@ -108,7 +108,19 @@ const products_routes = (app:express.Application) =>{
         }
         catch(error){
             res.status(400);
-            res.json("cannot get product_id from cart "+error);
+            res.json("cannot get product_id from product model "+error);
+        }
+    });
+
+    app.post('/limit4',async(req:Request,res:Response)=>{
+        try{
+            const offset = req.body.offset;
+            const products = await getPageProducts(offset);
+            res.json(products);
+        }
+        catch(error){
+            res.status(400);
+            res.json("cannot get products with offset from product models "+error);
         }
     });
 }

@@ -78,3 +78,7 @@ export const getProductId = (productName : string):Promise<number>=>{
     return product_id;
 }
 
+export const getPageProducts = (offset : number):Promise<Product[]>=>{
+    const pageProducts = store.getPageProducts(offset);
+    return pageProducts;
+}

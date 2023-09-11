@@ -17,3 +17,13 @@ export const deleteCartItems = async(cart_id : number):Promise<CartItem[]> =>{
     const deletedItems = await store.deleteCartItems(cart_id);
     return deletedItems;
 }
+
+export const deleteCartItem = async(cart_id:number,product_id:number):Promise<CartItem>=>{
+    const deletedCartItem = await store.deleteCartItem(cart_id,product_id);
+    return deletedCartItem;
+}
+
+export const updateCartItem = async(quantity:number,cart_id:number)=>{
+    const updatedCartItem = await store.updateCartItem(quantity,cart_id);
+    return updatedCartItem;
+}

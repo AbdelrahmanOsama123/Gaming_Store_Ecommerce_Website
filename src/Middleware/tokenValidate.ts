@@ -20,13 +20,11 @@ const tokenValidate = async(req:Request,res:Response,next:Function) =>{
                 next();
               } 
             else {
-                res.status(401);
-                res.json("You are not authorized");
+                res.redirect('http://127.0.0.1:8000/login');
               }
         }
         else{
-            res.status(401);
-            res.json('You are not authorized');
+            res.redirect('http://127.0.0.1:8000/login');
         }
     }
 }

@@ -97,8 +97,8 @@ const allProducts = async()=>{
 }
 allProducts();
 
+let productsContainer = document.getElementById('productsContainer');
 const loadProducts = async(products)=>{
-    let parentElement = document.getElementById('productsContainer');
     const fragment = document.createDocumentFragment();
     for(const product of products){
         const container = document.createElement('div');
@@ -111,8 +111,8 @@ const loadProducts = async(products)=>{
         thumb.className = 'thumb';
 
         const image = document.createElement('img');
-        image.src = 'assets/images/trending-01.jpg';
-        image.alt = '';
+        image.src = '../assets/images/trending-01.jpg';
+        image.alt = 'not found';
 
         thumb.appendChild(image);
 
@@ -156,8 +156,8 @@ const loadProducts = async(products)=>{
         container.appendChild(item);
         fragment.appendChild(container);
     }
-    parentElement.innerHTML = '';
-    parentElement.appendChild(fragment);
+    productsContainer.innerHTML = '';
+    productsContainer.appendChild(fragment);
     
 }
 
@@ -192,4 +192,44 @@ const sendData = async (url,products)=>{
         }
     };  
 
-   
+const getPageProducts = async(url,data)=>{
+    const res = await fetch(url, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      try {
+        const data = await res.json();
+        return data;
+      } catch (error) {
+        console.log('error', error);
+      }
+}
+const pageNumbers = document.getElementsByClassName('pageNumber');
+
+const container = document.getElementById('container');
+console.log(container);
+
+const getEachPageProducts = async(pageNumber)=>{
+        container.scrollIntoView({ behavior: 'smooth' });
+        const offset = ((parseInt(pageNumber.textContent))-1)*4;
+        const products = await getPageProducts('/limit4',{offset});
+        console.log(products);
+        await loadProducts(products);
+        sendData('/target',products);
+}
+
+const handelePageNumbers = ()=>{
+    for(const pageNumber of pageNumbers)
+    {
+        pageNumber.addEventListener('click',async(event)=>{
+            event.preventDefault();
+            getEachPageProducts(pageNumber);
+        });
+    }
+}
+handelePageNumbers();
+

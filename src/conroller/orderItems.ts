@@ -11,3 +11,8 @@ export const getOrderItems = async(order_id:number)=>{
     const result = await store.getOrderItems(order_id);
     return result;
 }
+
+// export const deleteCartItem = async(cartItem_id:number)=>{
+//     const result = await store.deleteCartItem(cartItem_id);
+//     return result;
+// }

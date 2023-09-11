@@ -18,7 +18,7 @@ import cart_routes from './Routes/cart';
 import cartItems_route from './Routes/cartItems';
 import orderItems_route from './Routes/orderItems';
 import profile_route from './Routes/Render/profile_render';
-
+import sendMail_route from './Routes/sendMail';
 const app = express();
 
 /// Using body parser Middle ware 
@@ -35,6 +35,7 @@ dashboad_routes(app);
 cart_routes(app);
 cartItems_route(app);
 orderItems_route(app);
+sendMail_route(app);
 
 app.use('/',userRegister_route);
 app.use('/',login_route);

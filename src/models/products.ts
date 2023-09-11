@@ -106,4 +106,17 @@ export class productStore {
             throw new Error('cannot get product_id from database');
         }
     }
+
+    async getPageProducts(offset:number):Promise<Product[]>{
+        try{
+            const conn = await client.connect();
+            const sql = 'select * from products order by id offset ($1) limit 4';
+            const result = await conn.query(sql,[offset]);
+            conn.release();
+            return result.rows;
+        }
+        catch(error){
+            throw new Error('cannot get products with required offset from database');
+        }
+    }
 }

@@ -1,3 +1,19 @@
+const deleteCartItem = async (url,data={})=>{
+  const res = await fetch(url, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    try {
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.log('error', error);
+    }
+}
 
 const getCartId = async(url)=>{
   const res =  await fetch(url);
@@ -28,11 +44,12 @@ const getCartItems = async(url,data)=>{
   }
 }
 
-const spanSubtotal = document.getElementById('spanSubtotal');
-const spanTotal = document.getElementById('spanTotal');
-const spanCheckout = document.getElementById('spanCheckout');
-const spanQuantity = document.getElementById('spanQuantity');
-const cartContainer = document.getElementById('cartContainer');
+let spanSubtotal = document.getElementById('spanSubtotal');
+let spanTotal = document.getElementById('spanTotal');
+let spanCheckout = document.getElementById('spanCheckout');
+let spanQuantity = document.getElementById('spanQuantity');
+let cartContainer = document.getElementById('cartContainer');
+
 
 const getCartItemsData = async()=>{
     const cart_id = parseInt(await getCartId('/getCartId'));
@@ -41,19 +58,17 @@ const getCartItemsData = async()=>{
     let Totalquantity=0;
     for (const cartItem of cartItems){
         const container = document.createElement('div');
-        container.classList.add('d-flex', 'justify-content-between', 'align-items-center', 'mt-3', 'p-2', 'items', 'rounded');
-        // eslint-disable-next-line no-const-assign
+        container.classList.add('d-flex', 'justify-content-between', 'align-items-center', 'mt-3', 'p-2', 'items', 'rounded','cart_item');
+
         orderPrice +=(cartItem.afteroffer*cartItem.quantity);
         Totalquantity+=(cartItem.quantity);
         container.classList.add('cartItem');
-        // Create the left side div
         const leftDiv = document.createElement('div');
         leftDiv.classList.add('d-flex', 'flex-row');
 
-        // Create the image element
         const image = document.createElement('img');
         image.classList.add('rounded');
-        image.src = 'https://i.imgur.com/QRwjbm5.jpg';
+        image.src = '../assets/images/trending-01.jpg';
         image.width = '40';
         leftDiv.appendChild(image);
 
@@ -75,24 +90,46 @@ const getCartItemsData = async()=>{
         const rightDiv = document.createElement('div');
         rightDiv.classList.add('d-flex', 'flex-row', 'align-items-center');
 
-        const quantity = document.createElement('span');
-        quantity.classList.add('d-block');
-        quantity.textContent = cartItem.quantity;
+        const increase = document.createElement('a');
+        increase.classList.add('btn','increase');
+        increase.style.fontWeight='bold';
+        increase.style.fontSize='35px';
+        increase.textContent = '+';
+
+        const decrease = document.createElement('a');
+        decrease.classList.add('btn','decrease');
+        decrease.textContent = '-';
+        decrease.style.fontWeight='bold';
+        decrease.style.fontSize='35px';
+
+        const quantity = document.createElement('input');
+        quantity.readOnly=true;
+        quantity.style.cssText="background-color:rgb(225,225,225);width:60px;padding-left:5px";
+        quantity.classList.add('d-block','inputs');
+        quantity.value = cartItem.quantity;
+
+        rightDiv.appendChild(increase);
         rightDiv.appendChild(quantity);
+        rightDiv.appendChild(decrease);
+        
 
         const price = document.createElement('span');
+        price.classList.add('prices');
         price.classList.add('d-block', 'ml-5', 'font-weight-bold');
         price.innerHTML = `${cartItem.afteroffer*cartItem.quantity} <del>${cartItem.price*cartItem.quantity}</del>`;
         rightDiv.appendChild(price);
 
+        const trashIconHref = document.createElement('a');
+        trashIconHref.href='#';
+        trashIconHref.classList.add('trash');
         const trashIcon = document.createElement('i');
-        trashIcon.classList.add('fa', 'fa-trash-o', 'ml-3', 'text-black-50');
-        rightDiv.appendChild(trashIcon);
+        trashIcon.classList.add('fa', 'fa-trash-o', 'ml-3');
+        trashIconHref.appendChild(trashIcon);
+        rightDiv.appendChild(trashIconHref);
 
         container.appendChild(leftDiv);
         container.appendChild(rightDiv);
 
-        // Append the container to the document body or any other desired element
         cartContainer.appendChild(container);
     } 
 
@@ -101,8 +138,9 @@ const getCartItemsData = async()=>{
     spanTotal.innerText =`$${orderPrice+20}`;
     spanCheckout.innerText =`$${orderPrice+20}`;
     spanQuantity.innerText =`${Totalquantity}`;
-}
+    return cartItems;
 
+}
 
 const  sendDataToOrder = async(url,data)=>{
   const res = await fetch(url, {
@@ -140,9 +178,93 @@ const  sendDataToOrderItems = async(url,data)=>{
 
 
 const getData = async()=>{
-  await getCartItemsData();
+  const cartItems = await getCartItemsData();
+  return cartItems;
 }
-getData();
+
+const updateCartItemData = async(url,data)=>{
+  const res = await fetch(url, {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  try {
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log('error', error);
+  }
+}
+
+const applyIncreaseANDDecrease = async()=>{
+  const cartItems = await getData();
+  const increases = document.getElementsByClassName('increase');
+  const decreases = document.getElementsByClassName('decrease');
+  const inputs = document.getElementsByClassName('inputs');
+  const prices = document.getElementsByClassName('prices');
+  for(let i= 0;i<cartItems.length;++i){
+    increases[i].addEventListener('click',async(event)=>{
+      event.preventDefault();
+      spanSubtotal.innerText = `$${parseInt((spanSubtotal.innerText).slice(1))+(cartItems[i].afteroffer)}`;
+      spanTotal.innerText = `$${parseInt((spanTotal.innerText).slice(1))+(cartItems[i].afteroffer)}`;
+      spanQuantity.innerText = parseInt(spanQuantity.innerText)+1;
+      spanCheckout.innerText = `$${parseInt((spanCheckout.innerText).slice(1))+(cartItems[i].afteroffer)}`;
+
+      inputs[i].value = parseInt(inputs[i].value)+1;
+      cartItems[i].quantity+=1;
+      prices[i].innerHTML = `${cartItems[i].afteroffer*cartItems[i].quantity} <del>${cartItems[i].price*cartItems[i].quantity}</del>`;
+
+      const cart_id = cartItems[i].cart_id;
+
+      await updateCartItemData('/updateCartItem',{cart_id,quantity:cartItems[i].quantity})
+    });
+
+    decreases[i].addEventListener('click',async(event)=>{
+        if(parseInt(inputs[i].value)>0){
+          event.preventDefault();
+          spanSubtotal.innerText = `$${parseInt((spanSubtotal.innerText).slice(1))-(cartItems[i].afteroffer)}`;
+          spanTotal.innerText = `$${parseInt((spanTotal.innerText).slice(1))-(cartItems[i].afteroffer)}`;
+          spanQuantity.innerText = parseInt(spanQuantity.innerText)-1;
+          inputs[i].value = parseInt(inputs[i].value)-1;
+
+          cartItems[i].quantity-=1;
+          prices[i].innerHTML = `${cartItems[i].afteroffer*cartItems[i].quantity} <del>${cartItems[i].price*cartItems[i].quantity}</del>`;
+
+          const cart_id = cartItems[i].cart_id;
+
+          await updateCartItemData('/updateCartItem',{cart_id,quantity:cartItems[i].quantity})
+        }
+      })
+      
+  }
+  return cartItems;
+}
+
+const msgCheckoutSpan = document.getElementById('msgSpan');
+
+const DeleteCartItem = async()=>{
+  const cartItems = await applyIncreaseANDDecrease();
+  const trashes = Array.from(document.getElementsByClassName('trash'));
+  const cart_id = await getCartId('/getCartId');
+  let cartItemsElements = Array.from(document.getElementsByClassName('cart_item'));
+  const inputs = Array.from(document.getElementsByClassName('inputs'));
+  for(let i = 0;i<cartItemsElements.length;++i){
+      trashes[i].addEventListener('click',async(event)=>{
+        event.preventDefault();
+        const product_id = cartItems[i].id;
+        await deleteCartItem('/deleteCartItem',{cart_id,product_id});
+        cartItemsElements[i].remove();
+        spanSubtotal.innerText = `$${parseInt((spanSubtotal.innerText).slice(1))-((cartItems[i].afteroffer)*cartItems[i].quantity)}`;
+        spanTotal.innerText = `$${parseInt((spanTotal.innerText).slice(1))-(cartItems[i].afteroffer*cartItems[i].quantity)}`;
+        spanQuantity.innerText = (parseInt(spanQuantity.innerText))-inputs[i].value;
+      })  
+    }
+}
+
+DeleteCartItem();
 
 const deleteCartItems = async(url,data)=>{
     const res = await fetch(url, {
@@ -159,21 +281,18 @@ const deleteCartItems = async(url,data)=>{
     } catch (error) {
       console.log('error', error);
     }
-  }
-const msgCheckoutSpan = document.getElementById('msgSpan');
+}
+
 const btnCheckout = document.getElementById('btnCheckout');
 btnCheckout.addEventListener('click',async()=>{
   const cart_id = parseInt(await getCartId('/getCartId'));
   const cartItems = await getCartItems('/getCartItems',{cart_id});
-  console.log(cartItems);
   if(cartItems.length==0){
     msgCheckoutSpan.textContent = "you haven't add product to cart";
     msgCheckoutSpan.style.cssText = 'color:rgb(255,0,0);font-size: 16px; font-weight: bold;';
     return ;
   }
   else{
-      msgCheckoutSpan.textContent = 'Order is sent successfully';
-      msgCheckoutSpan.style.cssText = 'color:rgb(0,255,0);font-size: 16px; font-weight: bold;';
       const totalPrice = (spanTotal.innerText).slice(1);
       const order = await sendDataToOrder('/orders',{price:totalPrice});
       for(const cartItem of cartItems){
@@ -183,7 +302,10 @@ btnCheckout.addEventListener('click',async()=>{
           const price = cartItem.quantity * cartItem.afteroffer;
           await sendDataToOrderItems('/orderItems',{order_id,product_id,quantity,price})
       }
+      msgCheckoutSpan.textContent = 'Order is sent successfully';
+      msgCheckoutSpan.style.cssText = 'color:rgb(0,255,0);font-size: 16px; font-weight: bold;';
       setTimeout(async()=>{
+        msgCheckoutSpan.innerText = '';
         const cart_id = await getCartId('/getCartId');
         await deleteCartItems('/deleteCartItems',{cart_id})
         const cartItems = document.getElementsByClassName('cartItem');
@@ -191,10 +313,12 @@ btnCheckout.addEventListener('click',async()=>{
         for(const item of cartItemsArray){ 
           item.remove();
         }
-        spanQuantity.innerText = '0';
+        spanSubtotal.textContent='0';
+        spanTotal.textContent ='0';
+        spanQuantity.textContent ='0';
+        spanCheckout.textContent ='0';
       },3000)
       
   }
   
 });
-

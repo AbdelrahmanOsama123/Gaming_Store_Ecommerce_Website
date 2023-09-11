@@ -16,7 +16,6 @@ const orderItems_route = (app:express.Application)=>{
     app.post('/getOrderItems',tokenValidate,async(req:Request,res:Response)=>{
         const order_id = req.body.order_id;
         const result = await getOrderItems(order_id);
-        console.log(result);
         res.json(result);
     })
 }
