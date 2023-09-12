@@ -1,4 +1,4 @@
-# StoreEcommerce_FullStack
+# Gaming_Store_Ecommerce_Website
 
 ## Getting Started
 
