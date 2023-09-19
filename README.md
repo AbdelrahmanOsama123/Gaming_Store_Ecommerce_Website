@@ -2,20 +2,19 @@
 
 ## Getting Started
 
-- This is CEE STORE fullstack web application, this app is responsive design, it implements node, typeScript, postgreSQL, jasmine and ejs.
+- This is LUGX STORE fullstack web application, this app is responsive design, it implements node, typeScript, postgreSQL, jasmine and ejs.
 - The app has normal users and admins, when user signup he recieves confirmation email.
 - The user can sign in with google account.
 - The user can change his profile image.
 - Admin can add products to the store using admin dashboard.
-- This app sells products, user can add product to cart and place the order, then he will recieve email of the bill.
+- This app sells games products, user can add game product to cart and place the order, then he will recieve email of the bill.
 - User can see this current orders and completed orders from profile
 - User can send message to the support team in contact-us.
-- Video demo for project
 ```bash
 https://drive.google.com/file/d/198PEaNpF93_dsQgnXrUixAYP7vbnEJaL/view?usp=sharing
 ```
 
-![2](https://github.com/mohamedamr241/CEE-STORE/assets/81832292/f52fd469-e24e-40b3-aafd-4f25aae6dc7f)
+![2](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/login.png)
 
 ![1](https://github.com/mohamedamr241/CEE-STORE/assets/81832292/62ede9df-8d95-4130-951e-f149a9f1e7af)
 
