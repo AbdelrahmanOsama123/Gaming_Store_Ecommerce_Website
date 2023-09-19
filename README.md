@@ -1,4 +1,8 @@
-# StoreEcommerce_FullStack
+```bash
+  npm i
+```
+
+# Gaming_Store_Ecommerce_Website
 
 ## Getting Started
 
