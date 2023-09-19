@@ -1,50 +1,197 @@
-```bash
-  npm i
-```
-
-# Gaming_Store_Ecommerce_Website
+# FULL STACK WEB PROJECT
 
 ## Getting Started
 
-This repo contains a basic Node and Express app to get I started in constructing an API. To get started, clone this repo and run `yarn` in Ir terminal at the project root.
+- This is CEE STORE fullstack web application, this app is responsive design, it implements node, typeScript, postgreSQL, jasmine and ejs.
+- The app has normal users and admins, when user signup he recieves confirmation email.
+- The user can sign in with google account.
+- The user can change his profile image.
+- Admin can add products to the store using admin dashboard.
+- This app sells products, user can add product to cart and place the order, then he will recieve email of the bill.
+- User can see this current orders and completed orders from profile
+- User can send message to the support team in contact-us.
+- Video demo for project
+```bash
+https://drive.google.com/file/d/198PEaNpF93_dsQgnXrUixAYP7vbnEJaL/view?usp=sharing
+```
 
-## Required Technologies
-my application must make use of the following libraries:
+![2](https://github.com/mohamedamr241/CEE-STORE/assets/81832292/f52fd469-e24e-40b3-aafd-4f25aae6dc7f)
+
+![1](https://github.com/mohamedamr241/CEE-STORE/assets/81832292/62ede9df-8d95-4130-951e-f149a9f1e7af)
+
+## Technologies used
+
+My application use the following libraries:
+
 - Postgres for the database
 - Node/Express for the application logic
 - dotenv from npm for managing environment variables
 - db-migrate from npm for migrations
 - jsonwebtoken from npm for working with JWTs
 - jasmine from npm for testing
-- type script
+- cors for security
+- Access token and refresh token for user signing in
+- passport-google-oauth20 for signing in with google account
+- multer for adding images of products and user profile image
+- ejs template engine to handle front end
+- nodemailer for sending email when user signup, place order and sending messages
+- winston for handling logs of the server and the database
+
+### Installing
+
+Run this command for dependency managment
+```bash
+npm i
+```
+
+-To run server
+```bash
+npm run start
+```
+-To build the project
+```bash
+npm run build
+```
+-To run test
+```bash
+npm run test
+```
+
+### The environment
+
+- We start first by installing pg and dotenv using npm and then creating .env file to put in it all the senstive information to be hidden and including .env in .gitignore.
+```bash
+POSTGRES_HOST
+POSTGRES_DB
+POSTGRES_DB_TEST
+DB_PASSWORD
+DB_USERNAME
+ENV=dev
+PEPPER
+SALT_ROUND
+TOKEN_SECRET
+REFRESH_TOKEN
+EMAIL
+EMAIL_PASSWORD
+GOOGLE_CLIENT_ID
+GOOGLE_CLIENT_SECRET
+```
+
+## Setup and connect to the database
+
+- Installing Pool
+```bash
+npm i Pool
+```
+- Create two databases: first: production , second: testing 
+```bash
+CREATE DATABASE (databasename)
+```
+- Download db-migrate package
+```bash
+npm i db-migrate
+```
+- Then run migrations
+```bash
+db-migrate env dev up
+```
+
+- First we import all the senstive data from .env file like host, database name, user and env state, then we create client using pool package (npm i Pool) -> let client: Pool = new Pool();
+  and then by checking that ENV variable is dev for developer or test for testing and then create a connection with the database by assigning to the client:Pool host,database,user,password of the database which are determined in database.json
+
+  ```json
+  {
+    "dev": {
+      "driver": "pg",
+      "host": {
+        "ENV": "POSTGRES_HOST"
+      },
+      "database": {
+        "ENV": "POSTGRES_DB"
+      },
+      "user": {
+        "ENV": "POSTGRES_USER"
+      },
+      "password": {
+        "ENV": "POSTGRES_PASSWORD"
+      }
+    },
+    "test": {
+      "driver": "pg",
+      "host": {
+        "ENV": "POSTGRES_HOST"
+      },
+      "database": {
+        "ENV": "POSTGRES_TEST_DB"
+      },
+      "user": {
+        "ENV": "POSTGRES_USER"
+      },
+      "password": {
+        "ENV": "POSTGRES_PASSWORD"
+      }
+    }
+  }
+  ```
+
+  - We have two databases: production this is for development and can be connected by running npm run start and production and testing is for testing and can be connected to by running npm run test.
+
+  - As we see here there is a development database and testing database if you are running the server using npm run start development database will be connected but if you run npm run test then testing database will be connected.
+
+  - After connecting to the database you should run the migration up (db-migrate up) to create the tables in the database.
+
+By following this steps you have successfully connected to the database for development or for testing and the next step is creating your tables and migrating them in the database or run the tests (testing with jasmine).
+
+## Ports
+
+- Port in which the server is running on: 8000
+- Port of the database is in .env file hidden which is:5432
+
+```bash
+#.env
+DB_PORT=5432
+PORT=8000
+```
+
+## REDIS
+
+- This app use redis for storing some user data so you should first go and install redis from this link 
+```bash
+https://github.com/microsoftarchive/redis/releases
+```
+- Install redis package
+```bash
+npm i redis
+```
+
+- Add this code for configuration of redis
+```bash
+import { createClient } from 'redis';
+const redisClient = createClient();
+
+redisClient.on('error', err => console.log('Redis Client Error', err));
+
+const conn = async()=>{
+    await redisClient.connect();
+}
+```
+## IMAGE DEMO
+- Products
+
+![3](https://github.com/mohamedamr241/CEE-STORE/assets/81832292/742b831f-664a-48d0-954a-41b75edfd4d5)
+
+- Cart
   
-## Steps to Completion
+![4](https://github.com/mohamedamr241/CEE-STORE/assets/81832292/03a1f450-7971-4ec9-b7b1-c9f9f48cb8ee)
 
-### 1. Plan to Meet Requirements
+- Profile
+  
+![5](https://github.com/mohamedamr241/CEE-STORE/assets/81832292/6e5a791d-d961-49c9-a62d-3f1072d51de5)
 
-- I Design the Postgres database tables. Add to the requirements document the database tables and columns being sure to mark foreign keys.   
-**Example**: I can format this however I like but these types of information should be provided
+- Contact Us
+  
+![6](https://github.com/mohamedamr241/CEE-STORE/assets/81832292/77c04286-c2f8-44ca-a5fb-21b19d886f6d)
 
-### 2.  DB Creation and Migrations
-
-Now that I have the structure of the databse outlined, it is time to create the database and migrations. Add the npm packages dotenv and db-migrate that we used in the course and setup Ir Postgres database. If I get stuck, I can always revisit the database lesson for a reminder. 
-
-I must also ensure that any sensitive information is hashed with bcrypt. If any passwords are found in plain text in Ir application it will not pass.
-
-### 3. Models
-
-Create the models for each database table. The methods in each model should map to the endpoints in `REQUIREMENTS.md`. Remember that these models should all have test suites and mocks.
-
-### 4. Express Handlers
-
-Set up the Express handlers to route incoming requests to the correct model method. Make sure that the endpoints I create match up with the enpoints listed in `REQUIREMENTS.md`. Endpoints must have tests and be CORS enabled. 
-
-### 5. JWTs
-
-Add JWT functionality. Make sure that JWTs are required.
-
-### 6. QA and `README.md`
-
-Before submitting, make sure that Ir project is complete with a `README.md`. Ir `README.md` must include instructions for setting up and running Ir project including how I setup, run, and connect to Ir database. 
-
-Before submitting Ir project, spin it up and test each endpoint. If each one responds with data that matches the data shapes from the `REQUIREMENTS.md`, it is ready for submission!
+- Admin add product
+  
+![7](https://github.com/mohamedamr241/CEE-STORE/assets/81832292/1821f670-b258-413a-a351-1f5d70395c0f)
