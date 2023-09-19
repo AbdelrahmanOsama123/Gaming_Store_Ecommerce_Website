@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-- This is LUGX STORE fullstack web application, this app is responsive design, it implements node, typeScript, postgreSQL, jasmine and ejs.
+- This is LUGX store FullStack web application, this app is responsive design, it implements node, typeScript, postgreSQL, jasmine and ejs.
 - The app has normal users and admins, when user signup he recieves confirmation email.
 - The user can sign in with google account.
 - The user can change his profile image.
