@@ -177,7 +177,7 @@ const conn = async()=>{
 ## IMAGE DEMO
 - Products
 
-![3](https://github.com/mohamedamr241/CEE-STORE/assets/81832292/742b831f-664a-48d0-954a-41b75edfd4d5)
+![3](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/shop.png)
 
 - Cart
   
