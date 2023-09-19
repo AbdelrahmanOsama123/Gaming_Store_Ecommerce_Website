@@ -1,9 +1,74 @@
-import express,{Request,Response} from 'express';
-import {index,show,create,update,Delete,getProductsByCatagory,getTrendingProducts,getProductId,getPageProducts} from '../conroller/products';
+import express,{Request,Response} from "express";
+import multer from "multer";
+import path from "path";
+import {index,show,create,update,Delete,getProductsByCatagory,getTrendingProducts,getProductId,getPageProducts,saveProductImage,getImage} from '../conroller/products';
 import tokenValidate from '../Middleware/tokenValidate';
-import isAdmin from '../Middleware/isAdmin';
+
+
+let uploadedFilename= '';
+let productId :number ;
+
+const storage = multer.diskStorage({
+    destination: function (req:Request, file, next) {
+        next(null, 'productImages/'); // Specify the folder where you want to save the files
+    },
+    filename: function (req:Request, file, next) {
+      // Generate a unique filename for the uploaded file (you can modify this logic)
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      uploadedFilename = file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname);
+      next(null, uploadedFilename);
+    }
+});
+const upload = multer({ storage: storage });
 
 const products_routes = (app:express.Application) =>{
+
+    app.post('/products',tokenValidate,async(req:Request,res:Response)=>{
+        try{
+            const product = {
+                name : req.body.name,
+                price : req.body.price,
+                afteroffer : req.body.afteroffer,
+                catagory : req.body.catagory,
+                description : req.body.description,
+                quantity : req.body.quantity,
+                image : req.body.image
+            }
+
+            const result = await create(product);
+            productId = (result.id as unknown as number);
+            res.json(result);
+        }
+        
+        catch(error){
+            res.status(400);
+            res.json({status:'failed'});
+        }
+    });
+
+    app.post('/saveProductImage',upload.single('image'), async(req:Request,res:Response) =>{
+        try {
+                const savedImage = await saveProductImage(uploadedFilename,productId);
+                res.json(savedImage);
+            }
+        catch(error){
+            res.status(400);
+            res.send('cannot insert data to database '+error);    
+        }
+    });
+
+    app.get('/getImage',async(req:Request,res:Response)=>{
+        try{
+            const user_id = req.cookies.user_id;
+            const result = await getImage(user_id);
+            res.json(result);
+        }
+        catch(error){
+            res.status(400);
+            res.send('cannot get Image from database '+error);
+        }
+    });
+
     app.get('/products',tokenValidate,async(req:Request,res:Response)=>{
         try{
             const result = await index();
@@ -14,6 +79,7 @@ const products_routes = (app:express.Application) =>{
             res.json("Invalid get all data from database "+error);
         }
     });
+
     app.get('/products/:id',tokenValidate,async(req:Request,res:Response)=>{
         try{
             const id :number = parseInt(req.params.id);
@@ -26,26 +92,6 @@ const products_routes = (app:express.Application) =>{
         }
         
     });
-                        ///tokenValidate
-    app.post('/products',tokenValidate,async(req:Request,res:Response)=>{
-        try{
-            const product = {
-                name : req.body.name,
-                price : req.body.price,
-                afteroffer : req.body.afteroffer,
-                catagory : req.body.catagory,
-                description : req.body.description,
-                quantity : req.body.quantity
-            }
-            const result = await create(product);
-            res.json(result);
-        }
-        
-        catch(error){
-            res.status(400);
-            res.json({status:'failed'});
-        }
-    });
                             ///tokenValidate
     app.put('/products/:id',tokenValidate,async(req:Request,res:Response)=>{
         try{
@@ -55,7 +101,8 @@ const products_routes = (app:express.Application) =>{
                 catagory : req.body.catagory,
                 afteroffer : req.body.afteroffer,
                 description : req.body.description,
-                quantity : req.body.quantity
+                quantity : req.body.quantity,
+                image : req.body.image
             }
             const id : number = parseInt(req.params.id as string);
             const result = await update(id,product);

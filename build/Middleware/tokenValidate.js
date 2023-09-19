@@ -48,6 +48,7 @@ var tokenValidate = function (req, res, next) { return __awaiter(void 0, void 0,
         switch (_a.label) {
             case 0:
                 username = req.cookies.username;
+                console.log('a7a', username);
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, , 11]);
@@ -73,13 +74,11 @@ var tokenValidate = function (req, res, next) { return __awaiter(void 0, void 0,
                 next();
                 return [3 /*break*/, 8];
             case 7:
-                res.status(401);
-                res.json("You are not authorized");
+                res.redirect('http://127.0.0.1:8000/login');
                 _a.label = 8;
             case 8: return [3 /*break*/, 10];
             case 9:
-                res.status(401);
-                res.json('You are not authorized');
+                res.redirect('http://127.0.0.1:8000/login');
                 _a.label = 10;
             case 10: return [3 /*break*/, 11];
             case 11: return [2 /*return*/];

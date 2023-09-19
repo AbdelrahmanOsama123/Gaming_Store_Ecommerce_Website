@@ -1,0 +1,23 @@
+ALTER TABLE products 
+ALTER COLUMN name 
+SET NOT NULL;
+
+ALTER TABLE products 
+ALTER COLUMN catagory 
+SET NOT NULL;
+
+ALTER TABLE products 
+ALTER COLUMN price 
+SET NOT NULL;
+
+ALTER TABLE products 
+ALTER COLUMN afteroffer 
+SET NOT NULL;
+
+ALTER TABLE products 
+ALTER COLUMN description 
+SET NOT NULL;
+
+ALTER TABLE products 
+ALTER COLUMN quantity 
+SET NOT NULL;

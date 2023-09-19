@@ -64,14 +64,14 @@ var users_routes = function (app) {
             }
         });
     }); });
-    app.get('/users/:id', tokenValidate_1.default, isAdmin_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var id, result, error_2;
+    app.get('/userId', tokenValidate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var user_id, result, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    id = parseInt((req.params.id));
-                    return [4 /*yield*/, (0, users_1.show)(id)];
+                    user_id = req.cookies.user_id;
+                    return [4 /*yield*/, (0, users_1.getUserData)(user_id)];
                 case 1:
                     result = _a.sent();
                     res.send(result);
@@ -107,67 +107,80 @@ var users_routes = function (app) {
         });
     }); });
     app.post('/users', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var user, resultID, token, err_1;
+        var user, token, user_id, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 2, , 3]);
+                    _a.trys.push([0, 5, , 6]);
                     user = {
+                        email: req.body.email,
                         username: req.body.username,
                         firstname: req.body.firstname,
                         lastname: req.body.lastname,
                         password: req.body.password,
                         confirm_password: req.body.confirmPassword,
-                        isadmin: req.body.isAdmin
+                        isadmin: req.body.isAdmin,
                     };
-                    resultID = (0, users_1.getUserID)(user.username);
-                    console.log(resultID);
-                    res.cookie('username', user.username);
                     return [4 /*yield*/, (0, users_1.signUp)(user)];
                 case 1:
                     token = _a.sent();
+                    if (!(token == null)) return [3 /*break*/, 2];
                     res.json(token);
-                    return [3 /*break*/, 3];
-                case 2:
+                    return [3 /*break*/, 4];
+                case 2: return [4 /*yield*/, (0, users_1.getUserID)(user.username)];
+                case 3:
+                    user_id = _a.sent();
+                    res.cookie('username', user.username);
+                    res.cookie('email', user.email);
+                    res.cookie('user_id', user_id);
+                    res.json(token);
+                    _a.label = 4;
+                case 4: return [3 /*break*/, 6];
+                case 5:
                     err_1 = _a.sent();
                     res.status(400);
                     res.json('error => ' + err_1);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
+                    return [3 /*break*/, 6];
+                case 6: return [2 /*return*/];
             }
         });
     }); });
     app.post('/authenticate', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var username, password, response, error_4;
+        var username, password, User, user_id, email, error_4;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 2, , 3]);
+                    _a.trys.push([0, 5, , 6]);
                     username = req.body.username;
                     password = req.body.password;
                     return [4 /*yield*/, (0, users_1.signIn)(username, password)];
                 case 1:
-                    response = _a.sent();
-                    if ((response === null || response === void 0 ? void 0 : response.accessToken) != null) {
-                        res.cookie('username', username);
-                        res.json({
-                            status: 'success',
-                            token: response.accessToken,
-                            isadmin: response.isadmin
-                        });
-                    }
-                    else {
-                        res.json({
-                            status: 'failed',
-                        });
-                    }
-                    return [3 /*break*/, 3];
+                    User = _a.sent();
+                    if (!(User != null)) return [3 /*break*/, 3];
+                    return [4 /*yield*/, (0, users_1.getUserID)(username)];
                 case 2:
+                    user_id = _a.sent();
+                    email = User.email;
+                    res.cookie('user_id', user_id);
+                    res.cookie('username', username);
+                    res.cookie('email', email);
+                    res.json({
+                        status: 'success',
+                        isadmin: User.isadmin
+                    });
+                    return [3 /*break*/, 4];
+                case 3:
+                    res.json({
+                        status: 'failed',
+                    });
+                    _a.label = 4;
+                case 4: return [3 /*break*/, 6];
+                case 5:
                     error_4 = _a.sent();
                     res.status(401);
                     res.json('error => ' + error_4);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
+                    return [3 /*break*/, 6];
+                case 6: return [2 /*return*/];
             }
         });
     }); });
@@ -178,7 +191,7 @@ var users_routes = function (app) {
                 username = req.cookies.username;
                 redis_1.default.DEL(username + "A");
                 redis_1.default.DEL(username + "R");
-                res.clearCookie('jwt', { path: '/' });
+                res.clearCookie('username', { path: '/' });
                 res.json('cleared cookie');
             }
             catch (error) {

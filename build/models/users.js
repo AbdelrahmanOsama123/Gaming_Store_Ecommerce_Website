@@ -74,26 +74,33 @@ var userStore = /** @class */ (function () {
     };
     userStore.prototype.create = function (user) {
         return __awaiter(this, void 0, void 0, function () {
-            var conn, sql, hash1, hash2, result, error_2;
+            var conn, getEmail, email, sql, hash1, hash2, result, error_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 3, , 4]);
+                        _a.trys.push([0, 6, , 7]);
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'INSERT INTO users (firstname,lastname,username,password,confirm_password) VALUES ($1,$2,$3,$4,$5) RETURNING *';
+                        getEmail = 'SELECT email from users where email = ($1)';
+                        return [4 /*yield*/, conn.query(getEmail, [user.email])];
+                    case 2:
+                        email = _a.sent();
+                        if (!(email.rows.length == 0)) return [3 /*break*/, 4];
+                        sql = 'INSERT INTO users (firstname,lastname,username,email,password,confirm_password) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *';
                         hash1 = bcrypt_1.default.hashSync((user.password + PEPPER), parseInt(SALTROUNDS));
                         hash2 = bcrypt_1.default.hashSync((user.confirm_password + PEPPER), parseInt(SALTROUNDS));
-                        return [4 /*yield*/, conn.query(sql, [user.firstname, user.lastname, user.username, hash1, hash2])];
-                    case 2:
+                        return [4 /*yield*/, conn.query(sql, [user.firstname, user.lastname, user.username, user.email, hash1, hash2])];
+                    case 3:
                         result = _a.sent();
                         conn.release();
                         return [2 /*return*/, result.rows[0]];
-                    case 3:
+                    case 4: return [2 /*return*/, null];
+                    case 5: return [3 /*break*/, 7];
+                    case 6:
                         error_2 = _a.sent();
                         return [2 /*return*/, null];
-                    case 4: return [2 /*return*/];
+                    case 7: return [2 /*return*/];
                 }
             });
         });
@@ -169,7 +176,7 @@ var userStore = /** @class */ (function () {
                         return [2 /*return*/, result.rows[0]];
                     case 3:
                         error_4 = _a.sent();
-                        throw new Error('error => ' + error_4);
+                        throw new Error("cannot delete user of".concat(id, " => ") + error_4);
                     case 4: return [2 /*return*/];
                 }
             });
@@ -185,15 +192,39 @@ var userStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'Select id from User where username = ($1)';
+                        sql = 'SELECT * from users where username= ($1)';
                         return [4 /*yield*/, conn.query(sql, [username])];
+                    case 2:
+                        result = _a.sent();
+                        conn.release();
+                        return [2 /*return*/, result.rows[0].id];
+                    case 3:
+                        error_5 = _a.sent();
+                        throw new Error('cannot get user_id => ' + error_5);
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    userStore.prototype.getUserData = function (user_id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var conn, sql, result, error_6;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, database_1.default.connect()];
+                    case 1:
+                        conn = _a.sent();
+                        sql = 'SELECT * from users where id= ($1)';
+                        return [4 /*yield*/, conn.query(sql, [user_id])];
                     case 2:
                         result = _a.sent();
                         conn.release();
                         return [2 /*return*/, result.rows[0]];
                     case 3:
-                        error_5 = _a.sent();
-                        throw new Error('error => ' + error_5);
+                        error_6 = _a.sent();
+                        throw new Error('cannot get user_id => ' + error_6);
                     case 4: return [2 /*return*/];
                 }
             });

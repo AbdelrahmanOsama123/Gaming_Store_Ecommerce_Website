@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserID = exports.destroy = exports.show = exports.signIn = exports.signUp = exports.index = void 0;
+exports.getUserData = exports.getUserID = exports.destroy = exports.signIn = exports.signUp = exports.index = void 0;
 var users_1 = require("../models/users");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var redis_1 = __importDefault(require("../utalities/redis"));
@@ -71,10 +71,10 @@ var signUp = function (user) { return __awaiter(void 0, void 0, void 0, function
                 return [4 /*yield*/, redis_1.default.set(newUser.username + "A", accessToken)];
             case 2:
                 _a.sent();
-                return [4 /*yield*/, redis_1.default.set(newUser.password + "R", refreshToken)];
+                return [4 /*yield*/, redis_1.default.set(newUser.username + "R", refreshToken)];
             case 3:
                 _a.sent();
-                return [2 /*return*/, accessToken];
+                return [2 /*return*/, newUser];
         }
     });
 }); };
@@ -99,7 +99,7 @@ var signIn = function (username, password) { return __awaiter(void 0, void 0, vo
                 return [4 /*yield*/, redis_1.default.set(username + "R", refreshToken)];
             case 3:
                 _a.sent();
-                return [2 /*return*/, { accessToken: accessToken, isadmin: newUser.isadmin }];
+                return [2 /*return*/, newUser];
             case 4:
                 error_1 = _a.sent();
                 throw new Error('error' + error_1);
@@ -108,18 +108,6 @@ var signIn = function (username, password) { return __awaiter(void 0, void 0, vo
     });
 }); };
 exports.signIn = signIn;
-var show = function (id) { return __awaiter(void 0, void 0, void 0, function () {
-    var result;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, store.show(id)];
-            case 1:
-                result = _a.sent();
-                return [2 /*return*/, result];
-        }
-    });
-}); };
-exports.show = show;
 var destroy = function (id) { return __awaiter(void 0, void 0, void 0, function () {
     var result;
     return __generator(this, function (_a) {
@@ -144,3 +132,15 @@ var getUserID = function (username) { return __awaiter(void 0, void 0, void 0, f
     });
 }); };
 exports.getUserID = getUserID;
+var getUserData = function (userId) { return __awaiter(void 0, void 0, void 0, function () {
+    var result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, store.getUserData(userId)];
+            case 1:
+                result = _a.sent();
+                return [2 /*return*/, result];
+        }
+    });
+}); };
+exports.getUserData = getUserData;

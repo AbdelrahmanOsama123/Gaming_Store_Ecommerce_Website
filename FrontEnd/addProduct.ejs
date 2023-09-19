@@ -11,6 +11,7 @@
 		
 		<link rel="stylesheet" href="./Register_page/css copy/bootstrap.min.css">
 		<link rel="stylesheet" href="./Register_page/css copy/loginStyle.css">
+		<link rel="stylesheet" href="css/addProduct.css">
 	</head>
 
 	<body class="img js-fullheight" style="background-image: url(./Register_page/images/girlontherise-template-color-1508350042.png);">
@@ -19,25 +20,39 @@
 			<div class="row justify-content-center">
 				<div class="col-sm-12 col-md-6 col-lg-4">
 					<div class="login-wrap p-0">
-						
-						<form action="#" class="signin-form">
+						<form id="product-form" enctype="multipart/form-data" class='signin-form'>
+							<div class="upload">
+							  <input type="file" id="file-input" name="image" />
+							  <label for="file-input" class="camera-icon">
+								<img
+								  src="assets/images/banner-image.jpg"
+								  id="productImage"
+								  width="150"
+								  height="150"
+								  alt=""
+								/>
+								<div class="round">
+								  <i class="fa fa-camera" style="color: #fff"></i>
+								</div>
+							  </label>
+							</div>
 							<div class="form-group">
-								<input type="text" class="form-control" placeholder="Product Name" id="txtProductName" required>
+								<input type="text" class="form-control" placeholder="Product Name" id="txtProductName" name="name" required>
 							</div>
 							<div class="form-group">	
-								<input type="text" class="form-control" placeholder="Price" id="txtProductPrice" required>
+								<input type="text" class="form-control" placeholder="Price" id="txtProductPrice" name="price" required>
 							</div>
 							<div class="form-group">
-								<input type="text" class="form-control" placeholder="After Offer" id="txtAfterOffer" required>
+								<input type="text" class="form-control" placeholder="After Offer" id="txtAfterOffer" name="afteroffer" required>
 							</div>
 							<div class="form-group">
-								<input class="form-control" placeholder="Catagory" id="txtCatagory" required>
+								<input class="form-control" placeholder="Catagory" id="txtCatagory" name="category" required>
 							</div>
 							<div class="form-group">
-								<input class="form-control" placeholder="Quantity" id="txtQuantity" required>
+								<input class="form-control" placeholder="Quantity" id="txtQuantity" name='quantity' required>
 							</div>
 							<div class="form-group">
-								<input class="form-control" placeholder="Description" id="txtDescription" required>
+								<input class="form-control" placeholder="Description" id="txtDescription" name='description' required>
 							</div>
 							
 							<span id="msgSpan"></span>

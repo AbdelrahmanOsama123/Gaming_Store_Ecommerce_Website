@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addProduct = exports.Delete = exports.update = exports.create = exports.show = exports.index = void 0;
+exports.addProduct = exports.Delete = exports.update = exports.getOrderIdsAndStatus = exports.create = exports.show = exports.index = void 0;
 var orders_1 = require("../models/orders");
 var store = new orders_1.orderStore();
 var index = function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -75,6 +75,18 @@ var create = function (order) { return __awaiter(void 0, void 0, void 0, functio
     });
 }); };
 exports.create = create;
+var getOrderIdsAndStatus = function (user_id) { return __awaiter(void 0, void 0, void 0, function () {
+    var orderIdsAndStatus;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, store.getOrderIdsAndStatus(user_id)];
+            case 1:
+                orderIdsAndStatus = _a.sent();
+                return [2 /*return*/, orderIdsAndStatus];
+        }
+    });
+}); };
+exports.getOrderIdsAndStatus = getOrderIdsAndStatus;
 var update = function (id, order) { return __awaiter(void 0, void 0, void 0, function () {
     var result;
     return __generator(this, function (_a) {

@@ -28,7 +28,6 @@ const sendMail_route = (app: express.Application) => {
           body {
             font-family: Arial, sans-serif;
             line-height: 1.5;
-            background-color: red;
           }
           .container {
             max-width: 600px;
@@ -92,10 +91,6 @@ const sendMail_route = (app: express.Application) => {
       }
     });
   });
-  // app.get('/sendMail', (req: Request, res: Response) => {
-
-  // });
-
 };
 
 export default sendMail_route;

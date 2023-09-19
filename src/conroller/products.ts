@@ -24,7 +24,7 @@ export const show = async (id:number):Promise<Product|null> =>{
     
 }
 
-export const create = async (product:Product):Promise<Product|null> =>{
+export const create = async (product:Product):Promise<Product> =>{
     try{
         const result = await store.create(product);
         return result;
@@ -81,4 +81,25 @@ export const getProductId = (productName : string):Promise<number>=>{
 export const getPageProducts = (offset : number):Promise<Product[]>=>{
     const pageProducts = store.getPageProducts(offset);
     return pageProducts;
+}
+
+export const saveProductImage = (imagename:string,product_id:number):Promise<string>=>{
+    try{
+        const savedImage = store.saveImage(imagename,product_id);
+        return savedImage;
+    }
+    
+    catch(error){
+        throw new Error('cannot get image from models '+error);
+    }
+}
+
+export const getImage = (user_id:number)=>{
+    try{
+        const result = store.getImage(user_id);
+        return result;
+    }
+    catch(error){
+        throw new Error('cannot get image from models '+error);
+    }
 }

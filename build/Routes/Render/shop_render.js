@@ -12,6 +12,7 @@ shop_route.set("view engine", "ejs");
 shop_route.use(express_1.default.static(path_1.default.join(__dirname, "../../../FrontEnd/")));
 shop_route.get('/shop', tokenValidate_1.default, function (req, res) {
     try {
+        ///{counter}
         res.render('shop');
     }
     catch (error) {

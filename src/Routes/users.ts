@@ -1,6 +1,6 @@
 import express,{Request,Response} from "express";
 import {User} from "../types/users";
-import {index,show,destroy,signUp,signIn,getUserID} from '../conroller/users'
+import {index,getUserData,destroy,signUp,signIn,getUserID} from '../conroller/users'
 import tokenValidate from "../Middleware/tokenValidate";
 import isAdmin from "../Middleware/isAdmin";
 import redisClient from "../utalities/redis";
@@ -16,10 +16,10 @@ const users_routes = (app:express.Application) =>{
             res.json("Invalid get data from db "+error);
         }
     });
-    app.get('/users/:id',tokenValidate,isAdmin,async(req:Request,res:Response)=>{
+    app.get('/userId',tokenValidate,async(req:Request,res:Response)=>{
         try{
-            const id = parseInt((req.params.id)as string);
-            const result = await show(id);
+            const user_id = req.cookies.user_id;
+            const result = await getUserData(user_id);
             res.send(result);
         }
         catch(error){
@@ -38,21 +38,32 @@ const users_routes = (app:express.Application) =>{
             res.json("Invalid delete data from db "+error);
         }
     });
-    app.post('/users',async (req:Request,res:Response) =>{
+
+    app.post('/users', async(req, res) =>{
     try{
+        
         const user : User = {
+            email : req.body.email,
             username :req.body.username,
             firstname : req.body.firstname,
             lastname : req.body.lastname,
             password :req.body.password,
             confirm_password : req.body.confirmPassword,
-            isadmin : req.body.isAdmin
+            isadmin : req.body.isAdmin,
         }
         const token = await signUp(user);
-        res.cookie('username',user.username);
-        const user_id = await getUserID(user.username);
-        res.cookie('user_id',user_id);
-        res.json(token);  
+        if(token==null){
+            res.json(token); 
+        }
+        else{
+            const user_id = await getUserID(user.username);
+
+            res.cookie('username',user.username);
+            res.cookie('email',user.email);
+            res.cookie('user_id',user_id);
+            res.json(token);  
+        }
+       
     }
     catch(err){
         res.status(400);
@@ -64,16 +75,19 @@ const users_routes = (app:express.Application) =>{
             const username = req.body.username;
             const password = req.body.password;
             
-            const response = await signIn(username,password);
+            const User = await signIn(username,password);
 
-            if(response?.accessToken != null){
+            if(User!= null){
                 const user_id = await getUserID(username);
+                const email = User.email;
+
                 res.cookie('user_id',user_id);
                 res.cookie('username',username);
+                res.cookie('email',email);
+
                 res.json({
                     status:'success',
-                    token : response.accessToken,
-                    isadmin : response.isadmin 
+                    isadmin : User.isadmin 
                 });
             }
             else{
@@ -92,7 +106,7 @@ const users_routes = (app:express.Application) =>{
             const username = req.cookies.username;
             redisClient.DEL(username+"A");
             redisClient.DEL(username+"R");
-            res.clearCookie('jwt', { path: '/' });
+            res.clearCookie('username', { path: '/' });
             res.json('cleared cookie');
         }
         catch(error){

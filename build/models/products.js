@@ -102,7 +102,7 @@ var productStore = /** @class */ (function () {
                         return [4 /*yield*/, database_1.default.connect()];
                     case 1:
                         conn = _a.sent();
-                        sql = 'SELECT * FROM products where id=($1) ';
+                        sql = 'SELECT * FROM products where id=($1)';
                         result = conn.query(sql, [id]);
                         conn.release();
                         return [4 /*yield*/, result];
@@ -207,6 +207,102 @@ var productStore = /** @class */ (function () {
                     case 3:
                         error_7 = _a.sent();
                         throw new Error('cannot get trending Products');
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    productStore.prototype.getProductId = function (productName) {
+        return __awaiter(this, void 0, void 0, function () {
+            var conn, sql, result, error_8;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, database_1.default.connect()];
+                    case 1:
+                        conn = _a.sent();
+                        sql = 'select id from products where name =($1)';
+                        return [4 /*yield*/, conn.query(sql, [productName])];
+                    case 2:
+                        result = _a.sent();
+                        conn.release();
+                        return [2 /*return*/, result.rows[0].id];
+                    case 3:
+                        error_8 = _a.sent();
+                        throw new Error('cannot get product_id from database');
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    productStore.prototype.getPageProducts = function (offset) {
+        return __awaiter(this, void 0, void 0, function () {
+            var conn, sql, result, error_9;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, database_1.default.connect()];
+                    case 1:
+                        conn = _a.sent();
+                        sql = 'select * from products order by id offset ($1) limit 4';
+                        return [4 /*yield*/, conn.query(sql, [offset])];
+                    case 2:
+                        result = _a.sent();
+                        conn.release();
+                        return [2 /*return*/, result.rows];
+                    case 3:
+                        error_9 = _a.sent();
+                        throw new Error('cannot get products with required offset from database');
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    productStore.prototype.saveImage = function (imagename, product_id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var conn, sql, result, error_10;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, database_1.default.connect()];
+                    case 1:
+                        conn = _a.sent();
+                        sql = 'update products set image = ($1) where id = ($2) RETURNING image';
+                        return [4 /*yield*/, conn.query(sql, [imagename, product_id])];
+                    case 2:
+                        result = _a.sent();
+                        conn.release();
+                        return [2 /*return*/, result.rows[0].image];
+                    case 3:
+                        error_10 = _a.sent();
+                        throw new Error('cannot Insert image into users table');
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    productStore.prototype.getImage = function (product_id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var conn, sql, result, error_11;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, database_1.default.connect()];
+                    case 1:
+                        conn = _a.sent();
+                        sql = 'select image from users where id = ($1)';
+                        return [4 /*yield*/, conn.query(sql, [product_id])];
+                    case 2:
+                        result = _a.sent();
+                        conn.release();
+                        return [2 /*return*/, result.rows[0].image];
+                    case 3:
+                        error_11 = _a.sent();
+                        throw new Error('cannot Insert image into users table');
                     case 4: return [2 /*return*/];
                 }
             });

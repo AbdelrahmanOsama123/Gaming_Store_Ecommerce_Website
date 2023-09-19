@@ -98,8 +98,10 @@ const allProducts = async()=>{
 allProducts();
 
 let productsContainer = document.getElementById('productsContainer');
+
 const loadProducts = async(products)=>{
     const fragment = document.createDocumentFragment();
+    console.log(products);
     for(const product of products){
         const container = document.createElement('div');
         container.className = 'col-lg-3 col-md-6 align-self-center mb-30 trending-items col-md-6';
@@ -111,8 +113,8 @@ const loadProducts = async(products)=>{
         thumb.className = 'thumb';
 
         const image = document.createElement('img');
-        image.src = '../assets/images/trending-01.jpg';
-        image.alt = 'not found';
+        image.id= 'productImage';
+        image.src = `http://127.0.0.1:8000/showProductImage/${product.image}`;
 
         thumb.appendChild(image);
 
@@ -211,7 +213,6 @@ const getPageProducts = async(url,data)=>{
 const pageNumbers = document.getElementsByClassName('pageNumber');
 
 const container = document.getElementById('container');
-console.log(container);
 
 const getEachPageProducts = async(pageNumber)=>{
         container.scrollIntoView({ behavior: 'smooth' });

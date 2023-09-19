@@ -12,18 +12,15 @@ productDetails_route.set("view engine", "ejs");
 productDetails_route.use(express_1.default.static(path_1.default.join(__dirname, "../../../FrontEnd/")));
 var name;
 var catagory;
-var id;
 var description;
 productDetails_route.post('/target', tokenValidate_1.default, function (req, res) {
     name = req.body.name;
     catagory = req.body.catagory;
-    id = req.body.id;
     description = req.body.description;
     res.json({ name: name, catagory: catagory, description: description });
 });
 productDetails_route.get('/productDetails', tokenValidate_1.default, function (req, res) {
     try {
-        console.log(name, catagory, description);
         res.render('product-details', { name: name, catagory: catagory, description: description });
     }
     catch (error) {

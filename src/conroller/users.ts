@@ -10,7 +10,7 @@ export const index = async () =>{
     return users;
 }
 
-export const signUp = async (user:User):Promise<string|null> =>{
+export const signUp = async (user:User):Promise<User|null> =>{
     const newUser = await store.create(user);
     if(newUser == null){
         return null;
@@ -19,7 +19,7 @@ export const signUp = async (user:User):Promise<string|null> =>{
     const refreshToken = jwt.sign({ user: newUser }, (process.env.TOKEN_SECRET)as string,{expiresIn:'1d'});
     await redisClient.set(newUser.username+"A",accessToken);
     await redisClient.set(newUser.username+"R",refreshToken);
-    return accessToken;
+    return newUser;
 }
 
 export const signIn = async (username:string,password:string) => 
@@ -33,17 +33,11 @@ export const signIn = async (username:string,password:string) =>
         const refreshToken = jwt.sign({ user: newUser }, (process.env.TOKEN_SECRET)as string,{expiresIn:'1d'});
         await redisClient.set(username+"A",accessToken);
         await redisClient.set(username+"R",refreshToken);
-        return {accessToken,isadmin : newUser.isadmin};
+        return newUser;
     }   
     catch(error){
         throw new Error('error'+error);
     }
-}
-
-export const show = async (id : number):Promise<User> =>
-{
-    const result = await store.show(id);
-    return result;
 }
 
 export const destroy = async(id :number):Promise<User> =>{
@@ -53,5 +47,10 @@ export const destroy = async(id :number):Promise<User> =>{
 
 export const getUserID = async(username:string):Promise<number>=>{
     const result = await store.getUserID(username);
+    return result;
+}
+
+export const getUserData = async(userId:number):Promise<number>=>{
+    const result = await store.getUserData(userId);
     return result;
 }

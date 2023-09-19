@@ -16,6 +16,17 @@ const getOrderItems = async(url,data)=>{
       }
 }
 
+const getUserData = async (url)=>{
+    const res =  await fetch(url);
+    try{
+        const data = await res.json();
+        return data;
+    }
+    catch(error)
+    {
+        console.log("error " + error);
+    }
+}
 const getOrderIdsAndStaus = async(url)=>{
     const res =  await fetch(url);
     try{
@@ -125,7 +136,66 @@ const loadOrderItems = async(status)=>{
     
 }
 
-loadOrderItems('current');
+
+loadOrderItems('current')
+.then(async()=>{
+    const userData =  await getUserData('/userId');
+    const profileName = document.getElementById('profileName');
+    profileName.textContent= `${userData.firstname} ${userData.lastname}`;
+});
+
+const saveImage = async(url='',data={})=>{
+    const res = await fetch(url, {
+        method: 'POST',
+        credentials: 'same-origin',
+        body: data,
+    });
+    
+    try{
+        const result = await res.json();
+        return result;
+    }
+    catch(error){
+        console.log(`sending data to server error: ${error}`);
+    }
+}
+
+const showImage = async(imagename)=>{
+    try{
+        const img = document.getElementById('userImage');
+        img.src = `http://127.0.0.1:8000/showImage/${imagename}`;
+    }
+    catch(error){
+        console.log(`showing image from server error: ${error}`);
+    }
+}
+
+let fileInput = document.getElementById('file-input');
+    
+fileInput.addEventListener('change', async function(event) {
+    event.preventDefault();
+    const form = document.querySelector('form');
+    const formData = new FormData(form);
+    const response = await saveImage('/saveImage',formData);
+    showImage(response.image);
+});
+
+const getImage = async(url)=>{
+    const res = await fetch(url);
+    try{
+        const result = await res.json();
+        return result;
+    }
+    catch(error){
+        console.log(`sending data to server error: ${error}`);
+    }
+}
+
+getImage('/getImage')
+.then((image)=>{
+    console.log(image);
+    showImage(image);
+})
 
 const btnCurrent = document.getElementById('btnCurrent');
 const btnCompleted = document.getElementById('btnCompleted');

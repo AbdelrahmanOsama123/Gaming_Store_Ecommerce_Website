@@ -84,16 +84,15 @@ var orders_routes = function (app) {
             }
         });
     }); });
-    app.post('/orders', tokenValidate_1.default, isAdmin_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    app.post('/orders', tokenValidate_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
         var order, result, error_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
                     order = {
-                        user_id: req.body.user_id,
+                        user_id: req.cookies.user_id,
                         price: req.body.price,
-                        status: req.body.status,
                     };
                     return [4 /*yield*/, (0, orders_1.create)(order)];
                 case 1:
@@ -106,6 +105,20 @@ var orders_routes = function (app) {
                     res.json("Invalid insert data to db " + error_3);
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
+            }
+        });
+    }); });
+    app.get('/getOrderIdsAndStatus', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var user_id, orderIdsAndStatus;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    user_id = req.cookies.user_id;
+                    return [4 /*yield*/, (0, orders_1.getOrderIdsAndStatus)(user_id)];
+                case 1:
+                    orderIdsAndStatus = _a.sent();
+                    res.json(orderIdsAndStatus);
+                    return [2 /*return*/];
             }
         });
     }); });

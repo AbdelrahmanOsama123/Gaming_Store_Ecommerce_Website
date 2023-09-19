@@ -260,6 +260,8 @@ const DeleteCartItem = async()=>{
         spanSubtotal.innerText = `$${parseInt((spanSubtotal.innerText).slice(1))-((cartItems[i].afteroffer)*cartItems[i].quantity)}`;
         spanTotal.innerText = `$${parseInt((spanTotal.innerText).slice(1))-(cartItems[i].afteroffer*cartItems[i].quantity)}`;
         spanQuantity.innerText = (parseInt(spanQuantity.innerText))-inputs[i].value;
+        spanCheckout.innerText = `$${parseInt((spanCheckout.innerText).slice(1))-(cartItems[i].afteroffer*cartItems[i].quantity)}`;
+
       })  
     }
 }
@@ -283,6 +285,22 @@ const deleteCartItems = async(url,data)=>{
     }
 }
 
+const sendOrderEmail = async(url,data)=>{
+  const res = await fetch(url, {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  try {
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log('error', error);
+  }
+}
 const btnCheckout = document.getElementById('btnCheckout');
 btnCheckout.addEventListener('click',async()=>{
   const cart_id = parseInt(await getCartId('/getCartId'));
@@ -300,7 +318,15 @@ btnCheckout.addEventListener('click',async()=>{
           const product_id = cartItem.id;
           const quantity = cartItem.quantity;
           const price = cartItem.quantity * cartItem.afteroffer;
+
+          let currentDate = new Date();
+          currentDate.setDate(currentDate.getDate() + 3);
+          let formattedDate = currentDate.toLocaleDateString();
+
           await sendDataToOrderItems('/orderItems',{order_id,product_id,quantity,price})
+          .then(async()=>{
+              await sendOrderEmail('/orderEmail',{orderid:order_id,quantity,price,totalPrice:price+20,formattedDate})
+          })
       }
       msgCheckoutSpan.textContent = 'Order is sent successfully';
       msgCheckoutSpan.style.cssText = 'color:rgb(0,255,0);font-size: 16px; font-weight: bold;';

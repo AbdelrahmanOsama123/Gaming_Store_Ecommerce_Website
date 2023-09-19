@@ -19,14 +19,29 @@ import cartItems_route from './Routes/cartItems';
 import orderItems_route from './Routes/orderItems';
 import profile_route from './Routes/Render/profile_render';
 import sendMail_route from './Routes/sendMail';
+import welcome_route from './Routes/welcomeMail';
+import orderMail_route from './Routes/orderEmail';
+import user_image_route from './Routes/dashboard/user_images';
+import images_route from './Routes/Render/images_render';
+import passport from 'passport';
+import google_route from './Routes/google';
+import session from 'express-session';
+import './utalities/google';
+
 const app = express();
 
+app.use(session({
+    secret: 'your-secret-key',
+  }));
 /// Using body parser Middle ware 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(cors());
 app.use(cookieParser());
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 users_routes(app);
 orders_routes(app);
@@ -36,6 +51,9 @@ cart_routes(app);
 cartItems_route(app);
 orderItems_route(app);
 sendMail_route(app);
+welcome_route(app);
+orderMail_route(app);
+user_image_route(app);
 
 app.use('/',userRegister_route);
 app.use('/',login_route);
@@ -46,6 +64,8 @@ app.use('/',contact_route);
 app.use('/',addProductRoute);
 app.use('/',cart_route);
 app.use('/',profile_route);
+app.use('/',images_route);
+app.use('/',google_route);
 
 const port = 8000;
 const host = '127.0.0.1';

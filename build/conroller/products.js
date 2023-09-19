@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTrendingProducts = exports.getProductsByCatagory = exports.Delete = exports.update = exports.create = exports.show = exports.index = void 0;
+exports.getImage = exports.saveProductImage = exports.getPageProducts = exports.getProductId = exports.getTrendingProducts = exports.getProductsByCatagory = exports.Delete = exports.update = exports.create = exports.show = exports.index = void 0;
 var products_1 = require("../models/products");
 var store = new products_1.productStore();
 var index = function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -99,7 +99,6 @@ var update = function (id, product) { return __awaiter(void 0, void 0, void 0, f
         switch (_a.label) {
             case 0:
                 _a.trys.push([0, 2, , 3]);
-                console.log(product);
                 return [4 /*yield*/, store.update(id, product)];
             case 1:
                 result = _a.sent();
@@ -162,3 +161,33 @@ var getTrendingProducts = function () { return __awaiter(void 0, void 0, void 0,
     });
 }); };
 exports.getTrendingProducts = getTrendingProducts;
+var getProductId = function (productName) {
+    var product_id = store.getProductId(productName);
+    return product_id;
+};
+exports.getProductId = getProductId;
+var getPageProducts = function (offset) {
+    var pageProducts = store.getPageProducts(offset);
+    return pageProducts;
+};
+exports.getPageProducts = getPageProducts;
+var saveProductImage = function (imagename, product_id) {
+    try {
+        var savedImage = store.saveImage(imagename, product_id);
+        return savedImage;
+    }
+    catch (error) {
+        throw new Error('cannot get image from models ' + error);
+    }
+};
+exports.saveProductImage = saveProductImage;
+var getImage = function (user_id) {
+    try {
+        var result = store.getImage(user_id);
+        return result;
+    }
+    catch (error) {
+        throw new Error('cannot get image from models ' + error);
+    }
+};
+exports.getImage = getImage;

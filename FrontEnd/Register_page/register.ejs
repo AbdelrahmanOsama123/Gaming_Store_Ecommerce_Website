@@ -11,6 +11,7 @@
 		
 		<link rel="stylesheet" href="./css copy/bootstrap.min.css">
 		<link rel="stylesheet" href="./css copy/loginStyle.css">
+		<link rel="stylesheet" href="../Login_page/css/login.css">
 	</head>
 
 	<body class="img js-fullheight" style="background-image: url(./images/girlontherise-template-color-1508350042.png);">
@@ -31,6 +32,9 @@
 								<input type="text" class="form-control" placeholder="Username" id="txtUsername">
 							</div>
 							<div class="form-group">
+								<input type="text" class="form-control" placeholder="Email" id="txtEmail">
+							</div>
+							<div class="form-group">
 								<input type="password" class="form-control" placeholder="Password" id="txtPassword">
 								<span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 							</div>
@@ -42,11 +46,23 @@
 							<div class="form-group mt-4">
 								<button class="form-control btn-success btn-outline-primary px-3" style="background-color: rgba(235, 32, 171, 0.811);" id="btnRegister">Register</button>
 							</div>	
-							<p class="w-100 text-center">&mdash; Or you  have  already  account ?&mdash;</p>
+							<p class="w-100 text-center">&mdash; Or Sign up with&mdash;</p>
+							<!-- <div class="google-btn">
+								<a href="http://localhost:8000/auth/google/signup">
+								  <div class="google-icon-wrapper">
+									<img
+									  class="google-icon"
+									  src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+									/>
+								  </div>
+								  <p class="btn-text"><b>Sign up With Google</b></p>
+								</a>
+							  </div> -->
+							  <p class="w-100 text-center" style="position:relative; top:20px;">&mdash; Or you  have  already  account ?&mdash;</p>
+
 							<div class="form-group mt-4">
-								<button class="form-control btn-success px-3" style="background-color: rgba(235, 32, 171, 0.811);"  id="btnSignin">Sign in</button>
+								<button class="form-control btn-success px-3" style="background-color: rgba(235, 32, 171, 0.811);position: relative; top:15px"  id="btnSignin">Sign in</button>
 							</div>	
-						
 						</form>
 				</div>
 			</div>

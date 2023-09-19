@@ -119,4 +119,31 @@ export class productStore {
             throw new Error('cannot get products with required offset from database');
         }
     }
+
+    async saveImage(imagename:string,product_id:number) : Promise<string> {
+        try{
+            const conn = await client.connect();
+            const sql = 'update products set image = ($1) where id = ($2) RETURNING image';
+            const result = await conn.query(sql,[imagename,product_id]);
+            conn.release();
+            return result.rows[0].image;
+        }
+        catch(error){
+            throw new Error('cannot Insert image into users table');
+        }
+    }
+
+    async getImage(product_id:number) : Promise<string> {
+        try{
+            const conn = await client.connect();
+            const sql = 'select image from users where id = ($1)';
+            const result = await conn.query(sql,[product_id]);
+            conn.release();
+            return result.rows[0].image;
+        }
+        catch(error){
+            throw new Error('cannot Insert image into users table');
+        }
+    }
+
 }

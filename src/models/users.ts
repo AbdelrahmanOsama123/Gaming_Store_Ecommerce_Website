@@ -29,18 +29,26 @@ export class userStore {
     {
         try{
             const conn = await client.connect();
-            const sql = 'INSERT INTO users (firstname,lastname,username,password,confirm_password) VALUES ($1,$2,$3,$4,$5) RETURNING *';
-            const hash1 = bcrypt.hashSync(
-                (user.password+ PEPPER),
-                parseInt(SALTROUNDS as string)
-            );
-            const hash2 = bcrypt.hashSync(
-                (user.confirm_password + PEPPER),
-                parseInt(SALTROUNDS as string)
-            );
-            const result = await conn.query(sql,[user.firstname,user.lastname,user.username,hash1,hash2]);
-            conn.release();
-            return result.rows[0];
+            const getEmail = 'SELECT email from users where email = ($1)';
+            const email = await conn.query(getEmail,[user.email]);
+
+            if(email.rows.length==0){
+                const sql = 'INSERT INTO users (firstname,lastname,username,email,password,confirm_password) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *';
+                const hash1 = bcrypt.hashSync(
+                    (user.password+ PEPPER),
+                    parseInt(SALTROUNDS as string)
+                );
+                const hash2 = bcrypt.hashSync(
+                    (user.confirm_password + PEPPER),
+                    parseInt(SALTROUNDS as string)
+                );
+                const result = await conn.query(sql,[user.firstname,user.lastname,user.username,user.email,hash1,hash2]);
+                conn.release();
+                return result.rows[0];
+            }
+            else{
+                return null;
+            }
         }
         catch(error){
             return null;
@@ -104,5 +112,17 @@ export class userStore {
         catch(error){
             throw new Error ('cannot get user_id => '+error);
         }
+    }
+    async getUserData(user_id : number) :Promise<number> {
+        try{
+            const conn = await client.connect();
+            const sql = 'SELECT * from users where id= ($1)';
+            const result = await conn.query(sql,[user_id]);
+            conn.release();
+            return result.rows[0];
+        }
+        catch(error){
+            throw new Error ('cannot get user_id => '+error);
+        }  
     }
 }
