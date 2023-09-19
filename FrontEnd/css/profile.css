@@ -50,18 +50,23 @@
   }
 
   #profileName{
-    width : 300px;
+    width : 400px;
     position: relative;
-    margin-top :20px;
     text-align: center;
-    right:50px;
+    margin :20px;
+    right:130px;
   }
 
   #btnCurrent{
-    margin-top:30px;
+    position: relative;
+    margin-top:190px;
+    text-align: center;
+    right:30px;
   }
   #btnCompleted{
-    margin-top:30px;
+    position: relative;
+    margin-top:150px;
+    text-align: center;
   }
 @media (min-width: 768.89px) and (max-width: 992px) {
 }
