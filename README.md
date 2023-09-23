@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-- This is LUGX STORE fullstack web application, this app is responsive design, it implements node, typeScript, postgreSQL, jasmine and ejs.
+- This is LUGX store FullStack web application, this app is responsive design, it implements node, typeScript, postgreSQL, jasmine and ejs.
 - The app has normal users and admins, when user signup he recieves confirmation email.
 - The user can sign in with google account.
 - The user can change his profile image.
@@ -16,7 +16,7 @@ https://drive.google.com/file/d/198PEaNpF93_dsQgnXrUixAYP7vbnEJaL/view?usp=shari
 
 ![2](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/login.png)
 
-![1](https://github.com/mohamedamr241/CEE-STORE/assets/81832292/62ede9df-8d95-4130-951e-f149a9f1e7af)
+![1](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/home.png)
 
 ## Technologies used
 
@@ -175,22 +175,22 @@ const conn = async()=>{
 }
 ```
 ## IMAGE DEMO
-- Products
+- Products (Games)
 
-![3](https://github.com/mohamedamr241/CEE-STORE/assets/81832292/742b831f-664a-48d0-954a-41b75edfd4d5)
+![3](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/shop.png)
 
 - Cart
   
-![4](https://github.com/mohamedamr241/CEE-STORE/assets/81832292/03a1f450-7971-4ec9-b7b1-c9f9f48cb8ee)
+![4](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/cart.png)
 
 - Profile
   
-![5](https://github.com/mohamedamr241/CEE-STORE/assets/81832292/6e5a791d-d961-49c9-a62d-3f1072d51de5)
+![5](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/profile.PNG)
 
 - Contact Us
   
-![6](https://github.com/mohamedamr241/CEE-STORE/assets/81832292/77c04286-c2f8-44ca-a5fb-21b19d886f6d)
+![6](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/ContactUs.png)
 
 - Admin add product
   
-![7](https://github.com/mohamedamr241/CEE-STORE/assets/81832292/1821f670-b258-413a-a351-1f5d70395c0f)
+![7](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/admin.png)
