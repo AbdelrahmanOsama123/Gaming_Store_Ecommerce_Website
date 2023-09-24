@@ -1,4 +1,4 @@
-# Gaming Store Website
+# LUGX Gaming Store Website
 
 ## Getting Started
 
