@@ -1,4 +1,4 @@
-# FULL STACK WEB PROJECT
+# Gaming Store Website
 
 ## Getting Started
 
