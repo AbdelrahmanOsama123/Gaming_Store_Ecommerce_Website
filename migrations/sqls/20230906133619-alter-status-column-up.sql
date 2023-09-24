@@ -1,2 +1,0 @@
-ALTER TABLE orders
-ADD COLUMN status VARCHAR(100) DEFAULT 'current';
