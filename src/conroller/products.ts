@@ -103,3 +103,13 @@ export const getImage = (user_id:number)=>{
         throw new Error('cannot get image from models '+error);
     }
 }
+
+export const getMostPlayed = ()=>{
+    try{
+        const result = store.getMostPlayed();
+        return result;
+    }
+    catch(error){
+        throw new Error('cannot get image from models '+error);
+    }
+}

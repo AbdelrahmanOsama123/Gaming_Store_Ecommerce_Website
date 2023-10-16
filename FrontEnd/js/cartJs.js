@@ -53,6 +53,7 @@ const sendCartItemData = async()=>{
     await sendDataToCartItem('/cartItems',{quantity,cart_id,product_id});
 }
 
+
 // const sendCounter = async(url,data)=>{
 //   const res = await fetch(url, {
 //     method: 'POST',

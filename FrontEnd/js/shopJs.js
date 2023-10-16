@@ -115,7 +115,7 @@ const loadProducts = async(products)=>{
         const image = document.createElement('img');
         image.id= 'productImage';
         image.src = `http://127.0.0.1:8000/showProductImage/${product.image}`;
-
+        image.classList.add('gameImage');
         thumb.appendChild(image);
 
         const price = document.createElement('span');
@@ -184,9 +184,10 @@ const sendData = async (url,products)=>{
         const names = document.getElementsByClassName('name');
         const links = document.getElementsByClassName('link');
         const catagories = document.getElementsByClassName('catagory');
+        const gameImages = document.getElementsByClassName('gameImage');
         for(let i = 0;i<links.length;++i){
             links[i].addEventListener('click',async ()=>{
-            await sendToProductDetails(url,{name:names[i].textContent,catagory:catagories[i].textContent,id:products[i].id,description:products[i].description})
+            await sendToProductDetails(url,{name:names[i].textContent,catagory:catagories[i].textContent,description:products[i].description,image:gameImages[i].src})
             .then(async()=>{
                 await fetch('/productDetails');
             })
@@ -218,7 +219,6 @@ const getEachPageProducts = async(pageNumber)=>{
         container.scrollIntoView({ behavior: 'smooth' });
         const offset = ((parseInt(pageNumber.textContent))-1)*4;
         const products = await getPageProducts('/limit4',{offset});
-        console.log(products);
         await loadProducts(products);
         sendData('/target',products);
 }

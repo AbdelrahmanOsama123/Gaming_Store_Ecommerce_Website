@@ -6,19 +6,27 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
-
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-		
 		<link rel="stylesheet" href="./Register_page/css copy/bootstrap.min.css">
 		<link rel="stylesheet" href="./Register_page/css copy/loginStyle.css">
 		<link rel="stylesheet" href="css/addProduct.css">
+		<link rel="stylesheet" href="assets/css/templatemo-lugx-gaming.css">
 	</head>
 
 	<body class="img js-fullheight" style="background-image: url(./Register_page/images/girlontherise-template-color-1508350042.png);">
 		<div class="container-fluid mt-5">
+			<header class="header-area header-sticky">
+			<nav class="main-nav">
+				<ul class="nav" id="nav_bar">
+					<li><a href="http://127.0.0.1:8000/home" class="active">Home</a></li>
+					<li><a href="#" id="btnLogout">Log out</a></li>
+				</ul>   
+			</nav>
+		</header>
 			<h1 class="mb-4 text-center" style="color:rgba(255, 235, 205, 0.943)">Add New Product</h1>
 			<div class="row justify-content-center">
 				<div class="col-sm-12 col-md-6 col-lg-4">
+					
 					<div class="login-wrap p-0">
 						<form id="product-form" enctype="multipart/form-data" class='signin-form'>
 							<div class="upload">
@@ -65,5 +73,6 @@
 			</div>
 		</div>
 		<script src="js/addProductJs.js"></script>
+		<script src="js/Logout.js"></script>
 	</body>
 </html>

@@ -1,7 +1,7 @@
 import express,{Request,Response} from "express";
 import multer from "multer";
 import path from "path";
-import {index,show,create,update,Delete,getProductsByCatagory,getTrendingProducts,getProductId,getPageProducts,saveProductImage,getImage} from '../conroller/products';
+import {index,show,create,update,Delete,getMostPlayed,getProductsByCatagory,getTrendingProducts,getProductId,getPageProducts,saveProductImage,getImage} from '../conroller/products';
 import tokenValidate from '../Middleware/tokenValidate';
 
 
@@ -69,9 +69,20 @@ const products_routes = (app:express.Application) =>{
         }
     });
 
-    app.get('/products',tokenValidate,async(req:Request,res:Response)=>{
+    app.get('/products',async(req:Request,res:Response)=>{
         try{
             const result = await index();
+            res.json(result);
+        }
+        catch(error){
+            res.status(400);
+            res.json("Invalid get all data from database "+error);
+        }
+    });
+
+    app.get('/getMostPlayed',async(req:Request,res:Response)=>{
+        try{
+            const result = await getMostPlayed();
             res.json(result);
         }
         catch(error){

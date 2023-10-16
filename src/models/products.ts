@@ -146,4 +146,16 @@ export class productStore {
         }
     }
 
+    async getMostPlayed() : Promise<Product[]> {
+        try{
+            const conn = await client.connect();
+            const sql = 'select * from products  order by id limit 6';
+            const result = await conn.query(sql);
+            conn.release();
+            return result.rows;
+        }
+        catch(error){
+            throw new Error('cannot Insert image into users table');
+        }
+    }
 }

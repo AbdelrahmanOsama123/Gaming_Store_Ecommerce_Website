@@ -1,6 +1,4 @@
 
-
-
 const saveImage = async(url='',data={})=>{
   const res = await fetch(url, {
       method: 'POST',

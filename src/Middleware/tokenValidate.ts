@@ -5,7 +5,6 @@ import redisClient from "../utalities/redis";
 import { refreshTheToken } from "../utalities/refreshToken";
 const tokenValidate = async(req:Request,res:Response,next:Function) =>{
     const username = req.cookies.username;
-    console.log('a7a',username)
     try{
         const accessToken = await redisClient.get(username+"A");
         jwt.verify(accessToken as string,(process.env.TOKEN_SECRET)as string);

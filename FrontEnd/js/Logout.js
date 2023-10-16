@@ -1,7 +1,6 @@
 const logoutButton = document.getElementById('btnLogout');
 logoutButton.addEventListener('click',async ()=>{
-        const res = await gotoLogoutRoute('/logout');
-        console.log(res);
+        await gotoLogoutRoute('/logout');
         await gotoLoginPage('/login');
 });
 

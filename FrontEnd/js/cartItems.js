@@ -49,6 +49,7 @@ let spanTotal = document.getElementById('spanTotal');
 let spanCheckout = document.getElementById('spanCheckout');
 let spanQuantity = document.getElementById('spanQuantity');
 let cartContainer = document.getElementById('cartContainer');
+let spanShipping = document.getElementById('spanShipping');
 
 
 const getCartItemsData = async()=>{
@@ -133,7 +134,15 @@ const getCartItemsData = async()=>{
         cartContainer.appendChild(container);
     } 
 
+    if(cartItems.length==0){
+      spanShipping.innerText = '$0';
+      spanTotal.innerText = '$0';
+      spanCheckout.innerText ='$0';
+      spanSubtotal.innerText='$0';
+      return;
+    }
 
+    spanShipping.innerText = '$20';
     spanSubtotal.innerText=`$${orderPrice}`;
     spanTotal.innerText =`$${orderPrice+20}`;
     spanCheckout.innerText =`$${orderPrice+20}`;
@@ -176,12 +185,12 @@ const  sendDataToOrderItems = async(url,data)=>{
   }
 }
 
-
+let itemsLength =0;
 const getData = async()=>{
   const cartItems = await getCartItemsData();
+  itemsLength = cartItems.length;
   return cartItems;
 }
-
 const updateCartItemData = async(url,data)=>{
   const res = await fetch(url, {
     method: 'POST',
@@ -208,10 +217,18 @@ const applyIncreaseANDDecrease = async()=>{
   for(let i= 0;i<cartItems.length;++i){
     increases[i].addEventListener('click',async(event)=>{
       event.preventDefault();
+      if(spanQuantity.innerText=='0'){
+        spanTotal.innerText = `$${parseInt((spanTotal.innerText).slice(1))+(cartItems[i].afteroffer)+20}`;
+        spanCheckout.innerText = `$${parseInt((spanCheckout.innerText).slice(1))+(cartItems[i].afteroffer)+20}`;
+      }
+      else{
+        spanTotal.innerText = `$${parseInt((spanTotal.innerText).slice(1))+(cartItems[i].afteroffer)}`;
+        spanCheckout.innerText = `$${parseInt((spanCheckout.innerText).slice(1))+(cartItems[i].afteroffer)}`;
+      }
       spanSubtotal.innerText = `$${parseInt((spanSubtotal.innerText).slice(1))+(cartItems[i].afteroffer)}`;
-      spanTotal.innerText = `$${parseInt((spanTotal.innerText).slice(1))+(cartItems[i].afteroffer)}`;
       spanQuantity.innerText = parseInt(spanQuantity.innerText)+1;
       spanCheckout.innerText = `$${parseInt((spanCheckout.innerText).slice(1))+(cartItems[i].afteroffer)}`;
+      spanShipping.innerText='$20';
 
       inputs[i].value = parseInt(inputs[i].value)+1;
       cartItems[i].quantity+=1;
@@ -225,14 +242,28 @@ const applyIncreaseANDDecrease = async()=>{
     decreases[i].addEventListener('click',async(event)=>{
         if(parseInt(inputs[i].value)>0){
           event.preventDefault();
-          spanSubtotal.innerText = `$${parseInt((spanSubtotal.innerText).slice(1))-(cartItems[i].afteroffer)}`;
-          spanTotal.innerText = `$${parseInt((spanTotal.innerText).slice(1))-(cartItems[i].afteroffer)}`;
+         
+          console.log(spanQuantity.innerText);
           spanQuantity.innerText = parseInt(spanQuantity.innerText)-1;
+          if(parseInt(spanQuantity.innerText)>0){
+            spanSubtotal.innerText = `$${parseInt((spanSubtotal.innerText).slice(1))-(cartItems[i].afteroffer)}`;
+            spanTotal.innerText = `$${parseInt((spanTotal.innerText).slice(1))-(cartItems[i].afteroffer)}`;
+            spanCheckout.innerText = `$${parseInt((spanCheckout.innerText).slice(1))-(cartItems[i].afteroffer)}`;
+            spanShipping.innerText='$20';
+           
+          }
+          else{
+            spanShipping.innerText='$0';
+            spanTotal.innerText='$0';
+            spanSubtotal.innerText='$0';
+            spanQuantity.innerText ='0';
+            spanCheckout.innerText ='$0';
+          }
           inputs[i].value = parseInt(inputs[i].value)-1;
 
           cartItems[i].quantity-=1;
           prices[i].innerHTML = `${cartItems[i].afteroffer*cartItems[i].quantity} <del>${cartItems[i].price*cartItems[i].quantity}</del>`;
-
+          
           const cart_id = cartItems[i].cart_id;
 
           await updateCartItemData('/updateCartItem',{cart_id,quantity:cartItems[i].quantity})
@@ -346,5 +377,12 @@ btnCheckout.addEventListener('click',async()=>{
       },3000)
       
   }
-  
 });
+
+const defaultPageValue = async()=>{
+  if(itemsLength==0){
+    spanShipping.textContent ='$0';
+    spanTotal.textContent ='$0';
+  }
+}
+defaultPageValue();

@@ -8,7 +8,69 @@ const getProducts = async(url)=>{
         throw new Error('cannot get data from database '+error);
     }
 }
+const getMostPlayedGames = async(url)=>{
+    const res = await fetch(url);
+    try{
+        const data = res.json();
+        return data;
+    }
+    catch(error){
+        throw new Error('cannot get data from database '+error);
+    }
+}
 
+const loadMostPlayedGames = async(url)=>{
+    const games = await getMostPlayedGames(url);
+    for(const game of games){
+        const parentDiv = document.createElement("div");
+        parentDiv.classList.add("col-lg-2", "col-md-6", "col-sm-6");
+
+        const itemDiv = document.createElement("div");
+        itemDiv.classList.add("item");
+
+        const thumbDiv = document.createElement("div");
+        thumbDiv.classList.add("thumb");
+
+        const anchorTag = document.createElement("a");
+        anchorTag.href = "http://127.0.0.1:8000/productDetails";
+
+        const image = document.createElement("img");
+        image.src = `http://127.0.0.1:8000/showProductImage/${game.image}`;
+        image.alt = "";
+        image.classList.add('exploreImage');
+        anchorTag.appendChild(image);
+        thumbDiv.appendChild(anchorTag);
+
+        const downContentDiv = document.createElement("div");
+        downContentDiv.classList.add("down-content");
+
+        const categorySpan = document.createElement("span");
+        categorySpan.classList.add("category");
+        categorySpan.textContent = game.catagory;
+        categorySpan.classList.add('exploreCatagory');
+
+        const h4Tag = document.createElement("h4");
+        h4Tag.textContent = game.name;
+        h4Tag.classList.add('exploreName');
+
+        const exploreAnchorTag = document.createElement("a");
+        exploreAnchorTag.href = "http://127.0.0.1:8000/productDetails";
+        exploreAnchorTag.classList.add('explore');
+        exploreAnchorTag.textContent = "Explore";
+
+        downContentDiv.appendChild(categorySpan);
+        downContentDiv.appendChild(h4Tag);
+        downContentDiv.appendChild(exploreAnchorTag);
+
+        itemDiv.appendChild(thumbDiv);
+        itemDiv.appendChild(downContentDiv);
+
+        parentDiv.appendChild(itemDiv);
+        const Container = document.getElementById('Container');
+        Container.appendChild(parentDiv);
+    }
+    return games;
+}
 const loadTrendingProductsData = async(url)=>{
         const products = await getProducts(url);
         for(const product of products){
@@ -27,8 +89,8 @@ const loadTrendingProductsData = async(url)=>{
 
             // Create the image element
             const image = document.createElement("img");
-            image.src = "assets/images/trending-01.jpg";
-            image.alt = "";
+            image.src = `http://127.0.0.1:8000/showProductImage/${product.image}`;
+            image.classList.add('gameImage');
 
             // Create the anchor element wrapping the image
             const anchor = document.createElement("a");
@@ -80,13 +142,9 @@ const loadTrendingProductsData = async(url)=>{
 
             // Append the inner div to the outer div
             outerDiv.appendChild(innerDiv);
-
-            // Append the outer div to the desired parent element in your HTML document
-            // const parentElement = document.getElementById("parentElementId");
-            // parentElement.appendChild(outerDiv);
             gamesContainer.appendChild(outerDiv);
-
         }
+     
     }
 
     const sendToProductDetails = async (url,data={})=>{
@@ -107,13 +165,29 @@ const loadTrendingProductsData = async(url)=>{
           }
     }
 
-    const sendData = async (url)=>{
+    const sendData = async (url,products)=>{
         const names = document.getElementsByClassName('name');
         const links = document.getElementsByClassName('link');
         const catagories = document.getElementsByClassName('catagory');
+        const explores = document.getElementsByClassName('explore');
+        const exploreNames = document.getElementsByClassName('exploreName');
+        const exploreCatagories = document.getElementsByClassName('exploreCatagory');
+        const gameImages = document.getElementsByClassName('gameImage');
+        const exploreImages = document.getElementsByClassName('exploreImage')
+        console.log(exploreImages[0]);
+
         for(let i = 0;i<links.length;++i){
             links[i].addEventListener('click',async ()=>{
-            await sendToProductDetails(url,{name:names[i].textContent,catagory:catagories[i].textContent})
+            await sendToProductDetails(url,{name:names[i].textContent,catagory:catagories[i].textContent,description:products[i].description,image:gameImages[i].src})
+            .then(async()=>{
+                await fetch('/productDetails');
+            })
+            });
+        }
+
+        for(let i = 0;i<explores.length;++i){
+            explores[i].addEventListener('click',async ()=>{
+            await sendToProductDetails(url,{name:exploreNames[i].textContent,catagory:exploreCatagories[i].textContent,description:products[i].description,image:exploreImages[i].src})
             .then(async()=>{
                 await fetch('/productDetails');
             })
@@ -122,7 +196,8 @@ const loadTrendingProductsData = async(url)=>{
     };  
 
 loadTrendingProductsData('/trending')
-.then(function(){
-    sendData('/target');
-});
+.then(async()=>{
+    const products = await loadMostPlayedGames('/getMostPlayed');
+    await sendData('/target',products);
+})
 
