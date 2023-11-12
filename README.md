@@ -37,7 +37,7 @@ https://drive.google.com/file/d/198PEaNpF93_dsQgnXrUixAYP7vbnEJaL/view?usp=shari
   
 ![6](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/ContactUs.png)
 
-- Admin add product
+- Admin ِ Add Product
   
 ![7](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/admin.png)
 
