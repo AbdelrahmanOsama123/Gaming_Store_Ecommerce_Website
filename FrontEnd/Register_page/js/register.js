@@ -111,11 +111,9 @@ registerButton.addEventListener('click', async (event) => {
           await getEnterWebsite('/login')
         .then(async()=>{
           await createCart('/carts');
-        })
-        .then(async()=>{
           await sendWelcomeMail('/welcomeMail',{firstname,lastname})
-        });
-      });
+        })
+      },3000);
     }
   } else {
     msgRegisterSpan.textContent = 'Two passwords do not match';

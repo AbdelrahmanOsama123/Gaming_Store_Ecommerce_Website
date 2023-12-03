@@ -168,7 +168,7 @@ const  sendDataToOrder = async(url,data)=>{
   }
 }
 
-const  sendDataToOrderItems = async(url,data)=>{
+const sendDataToOrderItems = async(url,data)=>{
   const res = await fetch(url, {
     method: 'POST',
     credentials: 'same-origin',

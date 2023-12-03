@@ -26,7 +26,7 @@ const orderMail_route = (app: express.Application) => {
       <!-- THIS EMAIL WAS BUILT AND TESTED WITH LITMUS http://litmus.com -->
           <!-- IT WAS RELEASED UNDER THE MIT LICENSE https://opensource.org/licenses/MIT -->
           <!-- QUESTIONS? TWEET US @LITMUSAPP -->
-          <!doctype html>
+          <!DOCTYPE html>
           <html>
             <head>
               <title></title>

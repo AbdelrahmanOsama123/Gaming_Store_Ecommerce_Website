@@ -3,6 +3,7 @@ import { Request,Response } from "express";
 import jwt from 'jsonwebtoken';
 import redisClient from "../utalities/redis";
 import { refreshTheToken } from "../utalities/refreshToken";
+
 const tokenValidate = async(req:Request,res:Response,next:Function) =>{
     const username = req.cookies.username;
     try{

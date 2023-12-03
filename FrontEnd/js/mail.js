@@ -92,5 +92,4 @@ btnSendMessage.addEventListener('click', async (event) => {
   setTimeout(()=>{
     emailMessage.textContent= ' ';
   },3000)
-
 });

@@ -90,9 +90,7 @@ addProductButton.addEventListener('click',async(event)=>{
     msgRegisterSpan.style.cssText = 'color:rgb(0,255,0);font-size: 16px; font-weight: bold;';
   }
 
-  const response = await saveImage('/saveProductImage',formData);
-  const myimage = response.image;
-  console.log(myimage);
+  await saveImage('/saveProductImage',formData);
   setTimeout(enteringHome,3000);
 
   });

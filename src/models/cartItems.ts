@@ -2,7 +2,7 @@ import { CartItem } from "../types/cartItem";
 import client from "../utalities/database";
 
 export class cartItemStore {
-    async create (cartItem:CartItem){
+    async create (cartItem:CartItem):Promise<CartItem>{
         try{
             const conn = await client.connect();
             const sql1 = 'SELECT * FROM cart_items where cart_id=($1) and product_id=($2)';
