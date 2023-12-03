@@ -1,4 +1,4 @@
-# FULL STACK WEB PROJECT
+# LUGX Gaming Store Website
 
 ## Getting Started
 
@@ -13,10 +13,57 @@
 ```bash
 https://drive.google.com/file/d/198PEaNpF93_dsQgnXrUixAYP7vbnEJaL/view?usp=sharing
 ```
-
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+## IMAGE DEMO
+- Login
+ 
 ![2](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/login.png)
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+- Home
+
 ![1](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/home.png)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+- Products (Games)
+
+![3](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/shop.png)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+- Cart
+  
+![4](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/cart.png)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+- Profile
+  
+![5](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/profile.PNG)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+- Contact Us
+  
+![6](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/ContactUs.png)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
+- Admin ِ Add Product
+  
+![7](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/admin.png)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
 
 ## Technologies used
 
@@ -174,23 +221,3 @@ const conn = async()=>{
     await redisClient.connect();
 }
 ```
-## IMAGE DEMO
-- Products (Games)
-
-![3](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/shop.png)
-
-- Cart
-  
-![4](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/cart.png)
-
-- Profile
-  
-![5](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/profile.PNG)
-
-- Contact Us
-  
-![6](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/ContactUs.png)
-
-- Admin add product
-  
-![7](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/admin.png)
