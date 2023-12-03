@@ -16,6 +16,13 @@ https://drive.google.com/file/d/198PEaNpF93_dsQgnXrUixAYP7vbnEJaL/view?usp=shari
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------
 ## IMAGE DEMO
+- Register
+ 
+![2](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/Register.png)
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+
 - Login
  
 ![2](https://github.com/AbdelrahmanOsama123/Gaming_Store_Ecommerce_Website/blob/main/FrontEnd/assets/images/login.png)
